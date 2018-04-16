@@ -1,0 +1,53 @@
+diff --git a/Dockerfile b/Dockerfile
+new file mode 100644
+index 0000000..9ea2619
+--- /dev/null
++++ b/Dockerfile
+@@ -0,0 +1,11 @@
++FROM slapers/alpine-node-chromium
++
++CMD ["npm", "start"]
++
++RUN echo "Installing Packages" \
++ && apk update \
++ && apk add wget openssl ca-certificates \
++ && update-ca-certificates \
++ && mkdir -p /app
++
++WORKDIR /app
+diff --git a/bin/npm b/bin/npm
+new file mode 100755
+index 0000000..d0cb55b
+--- /dev/null
++++ b/bin/npm
+@@ -0,0 +1,2 @@
++#!/usr/bin/env bash
++docker-compose run --rm app npm "$@"
+diff --git a/docker-compose.yml b/docker-compose.yml
+new file mode 100644
+index 0000000..256b1e9
+--- /dev/null
++++ b/docker-compose.yml
+@@ -0,0 +1,9 @@
++version: "3.4"
++services:
++  app:
++    container_name: app
++    build: .
++    ports:
++      - "4200:4200"
++    volumes:
++      - .:/app
+diff --git a/package.json b/package.json
+index 30323e4..1c12225 100644
+--- a/package.json
++++ b/package.json
+@@ -4,7 +4,7 @@
+   "license": "MIT",
+   "scripts": {
+     "ng": "ng",
+-    "start": "ng serve",
++    "start": "ng serve --host=0.0.0.0",
+     "build": "ng build --prod",
+     "test": "ng test",
+     "lint": "ng lint",
