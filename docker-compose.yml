@@ -5,7 +5,8 @@ services:
     container_name: app
     build: 
       context: ./containers/dev
+    command: npm run test:headless
     ports:
       - 4200:4200
     volumes:
-      - .:/app
+      - .:/home/node/app
