@@ -1,4 +1,5 @@
 pipeline {
+  agent any
   stages {
     // Verify NPM packages are installed properly
     stage('NPM Install') {
