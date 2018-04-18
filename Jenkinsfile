@@ -8,6 +8,14 @@ pipeline {
         sh 'node --version'
       }
     }
+    stage('Build') {
+      steps {
+        sh 'docker info'
+        sh 'docker build -t sevis-challenge-front/test:${BUILD_NUMBER} .'
+        sh 'docker tag sevis-challenge-front/test:${BUILD_NUMBER} sevis-challenge-front/test:latest'
+        sh 'docker images'
+      }
+    }
     // Verify NPM packages are installed properly
     stage('NPM Install') {
       steps {
