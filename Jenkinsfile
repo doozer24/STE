@@ -1,7 +1,13 @@
 pipeline {
-<<<<<<< HEAD
-  agent any
+  agent {
+      docker { image 'node:7-alpine' }
+  }
   stages {
+    stage('Node Validation') {
+      steps {
+        sh 'node --version'
+      }
+    }
     // Verify NPM packages are installed properly
     stage('NPM Install') {
       steps {
@@ -28,12 +34,4 @@ pipeline {
       }
     }
   }
-  post {
-   success {
-    slackSend color: "good", message:"Passed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-   }
-   failure {
-     slackSend color: "danger", message:"Failed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-   }
- }
 }
