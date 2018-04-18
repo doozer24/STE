@@ -1,6 +1,6 @@
 pipeline {
   agent {
-      docker { image 'node:7-alpine' }
+    docker { image 'node:7-alpine' }
   }
   stages {
     stage('Node Validation') {
@@ -8,7 +8,7 @@ pipeline {
         sh 'node --version'
       }
     }
-    stage('Build') {
+    stage('Docker Build') {
       steps {
         sh 'docker info'
         sh 'docker build -t sevis-challenge-front/test:${BUILD_NUMBER} .'
