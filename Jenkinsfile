@@ -36,7 +36,7 @@ pipeline {
 
         withCredentials([[
         $class: "AmazonWebServicesCredentialsBinding",
-        credentialsId: "sevischallenge"]]) {
+        credentialsId: "techchallenge_aws"]]) {
           // Upload tar'd build artifact to S3
           sh 'aws s3api put-object --bucket challenge-artifacts --key versions/$BRANCH_NAME/$BRANCH_NAME\\_$BUILD_NUMBER.tar.gz --body $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz'
         }
