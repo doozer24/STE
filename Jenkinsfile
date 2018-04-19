@@ -22,8 +22,24 @@ pipeline {
     // Verify the application will pass code coverage limits
     stage('Code Coverage') {
       steps {
-        //sh './bin/compose.sh run app npm run test:coverage'
+        sh './bin/compose.sh run app npm run test:coverage'
         echo 'Code Coverage'
+      }
+    }
+    // Prod Artifact Upload
+    stage('Prod Artifact Upload') {
+      steps {
+        sh './bin/compose.sh run app npm run build:prod'
+
+        // Tar the build artifact with the name being a combination of a branch name and build number
+        sh 'tar vczf $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz -C $(pwd)/dist .'
+
+        withCredentials([[
+        $class: "AmazonWebServicesCredentialsBinding",
+        credentialsId: "sevischallenge"]]) {
+          // Upload tar'd build artifact to S3
+          sh 'aws s3api put-object --bucket challenge-artifacts --key versions/$BRANCH_NAME/$BRANCH_NAME\\_$BUILD_NUMBER.tar.gz --body $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz'
+        }
       }
     }
   }
