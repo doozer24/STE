@@ -7,8 +7,15 @@
     "start": "ng serve --host=0.0.0.0",
     "build": "ng build --prod",
     "test": "ng test",
+    "test:headless": "ng test --browser ChromeNoSandbox --single-run",
+    "test:chrome": "ng test --browser Chrome --single-run",
+    "test:debug": "ng test --sourcemaps=false",
+    "test:chrome:debug": "ng test --browser Chrome --sourcemaps=false",
+    "test:coverage": "ng test -cc -sr",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:prod": "ng build --prod",
+    "test:prod": "npm test -- --browsers ChromiumNoSandbox --single-run && npm run e2e -- --no-delete-output-path"
   },
   "private": true,
   "dependencies": {
