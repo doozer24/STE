@@ -13,7 +13,7 @@ pipeline {
         sh './bin/compose.sh run app npm run build'
       }
     }
-    // Verify the application will pass all karma tests 
+    // Verify the application will pass all karma tests
     stage('Test') {
       steps {
         sh './bin/compose.sh run app'

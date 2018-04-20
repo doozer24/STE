@@ -9,6 +9,7 @@
     "test": "ng test",
     "test:headless": "ng test --browser ChromeNoSandbox --single-run",
     "test:chrome": "ng test --browser Chrome --single-run",
+    "test:selenium": "protractor protractor.conf.js",
     "test:debug": "ng test --sourcemaps=false",
     "test:chrome:debug": "ng test --browser Chrome --sourcemaps=false",
     "test:coverage": "ng test -cc -sr",
