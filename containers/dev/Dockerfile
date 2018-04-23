@@ -10,4 +10,10 @@ WORKDIR /app
 
 VOLUME /app
 
+# Since this app needs to run as an executable we are adding an entrypoint.
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint"]
+
 CMD ["npm", "start"]
