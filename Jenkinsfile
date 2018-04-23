@@ -14,12 +14,16 @@ pipeline {
     stage('NPM Install') {
       steps {
         sh '/usr/local/bin/docker-compose -p=${CI_ID} exec app npm install'
+        //temporary fix until we declare another user other then root.
+        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec app chmod -R 777 ../app/;'
       }
     }
     // Verify the application will build successfully
     stage('Build') {
       steps {
         sh '/usr/local/bin/docker-compose -p=${CI_ID} exec app npm run build'
+        //temporary fix until we declare another user other then root.
+        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec app chmod -R 777 ../app/;'
       }
     }
     // Verify the application will pass all karma tests
@@ -54,7 +58,7 @@ pipeline {
   }
   post {
    always{
-    sh '/usr/local/bin/docker-compose -p=${CI_ID} exec app chmod -R 777 ../app/; /usr/local/bin/docker-compose -p=${CI_ID} down -v'
+    sh '/usr/local/bin/docker-compose -p=${CI_ID} down -v'
    }
    success {
     slackSend color: "good", message:"Passed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
