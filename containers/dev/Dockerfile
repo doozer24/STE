@@ -1,7 +1,5 @@
 FROM slapers/alpine-node-chromium
 
-CMD ["npm", "start"]
-
 RUN echo "Installing Packages" \
   && apk update \
   && apk add wget openssl ca-certificates \
@@ -9,3 +7,7 @@ RUN echo "Installing Packages" \
   && mkdir -p /app
 
 WORKDIR /app
+
+VOLUME /app
+
+CMD ["npm", "start"]

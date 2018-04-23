@@ -5,8 +5,10 @@ services:
     container_name: app
     build:
       context: ./containers/dev
-    command: npm run
+    command: npm start
+    environment:
+      PROJ_HOME: ${PROJ_HOME}
     ports:
       - "4200:4200"
     volumes:
-      - "./:/app"
+      - "${PROJ_HOME}/:/app"
