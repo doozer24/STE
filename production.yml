@@ -1,5 +1,4 @@
 version: '3.4'
-
 services:
   app:
     container_name: app
@@ -12,6 +11,3 @@ services:
       - "4200:4200"
     volumes:
       - "${PROJ_HOME}/:/app"
-  selenium:
-    image: "selenium/standalone-chrome:3.11.0-californium"
-    shm_size: "2gb"
