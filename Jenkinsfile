@@ -13,9 +13,13 @@ pipeline {
     // Verify NPM packages are installed properly
     stage('NPM Install') {
       steps {
-        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app bash -c "npm install"'
-        //temporary fix until we declare another user other then root.
-        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app bash -c "chmod -R 777 ../app/"'
+        docker.image('app').inside("--network ${CI_ID}_default") {
+          sh "sleep 30";
+          sh "npm install"
+          //temporary fix until we declare another user other then root.
+          sh "chmod -R 777 ../app/"
+        }
+
       }
     }
     // Verify the application will build successfully
