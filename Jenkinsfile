@@ -1,7 +1,7 @@
 pipeline {
   agent any
   environment {
-      PROJ_HOME=${PWD}
+      PROJ_HOME="${PWD}"
   }
   stages {
     // Verify NPM packages are installed properly
