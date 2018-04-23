@@ -7,32 +7,32 @@ pipeline {
     // Verify NPM packages are installed properly
     stage('NPM Install') {
       steps {
-        sh './bin/compose.sh run app npm install'
+        sh './bin/compose.sh run -rm app npm install'
       }
     }
     // Verify the application will build successfully
     stage('Build') {
       steps {
-        sh './bin/compose.sh run app npm run build'
+        sh './bin/compose.sh run -rm app npm run build'
       }
     }
     // Verify the application will pass all karma tests
     stage('Test') {
       steps {
-        sh './bin/compose.sh run app'
+        sh './bin/compose.sh run -rm app'
       }
     }
     // Verify the application will pass code coverage limits
     stage('Code Coverage') {
       steps {
-        //sh './bin/compose.sh run app npm run test:coverage'
+        //sh './bin/compose.sh run -rm app npm run test:coverage'
         echo 'Code Coverage'
       }
     }
     // Prod Artifact Upload
     stage('Prod Artifact Upload') {
       steps {
-        sh './bin/compose.sh run app npm run build:prod'
+        sh './bin/compose.sh run -rm app npm run build:prod'
 
         // Tar the build artifact with the name being a combination of a branch name and build number
         sh 'tar vczf $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz -C $(pwd)/dist .'
