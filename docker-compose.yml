@@ -7,6 +7,6 @@ services:
       context: ./containers/dev
     command: npm run
     ports:
-      - 4200:4200
+      - "4200:4200"
     volumes:
-      - ./:/app
+      - "./:/app"
