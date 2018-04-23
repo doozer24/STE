@@ -3,10 +3,10 @@ version: '3.4'
 services:
   app:
     container_name: app
-    build: 
+    build:
       context: ./containers/dev
-    command: npm run 
+    command: npm run
     ports:
       - 4200:4200
     volumes:
-      - .:/app
+      - ./:/app
