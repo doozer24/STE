@@ -6,7 +6,9 @@ pipeline {
   }
   stages {
     stage('Docker Build') {
-      sh 'docker-compose build && docker-compose -p=${CI_ID} up -d'
+      steps{
+        sh 'docker-compose build && docker-compose -p=${CI_ID} up -d'
+      }
     }
     // Verify NPM packages are installed properly
     stage('NPM Install') {
@@ -53,7 +55,6 @@ pipeline {
   post {
    always{
     sh 'docker-compose -p=${CI_ID} exec app chmod -R 777 ../app/ ; docker-compose -p=${CI_ID} down -v'
-    sh ''
    }
    success {
     slackSend color: "good", message:"Passed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
