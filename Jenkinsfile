@@ -2,37 +2,41 @@ pipeline {
   agent any
   environment {
       PROJ_HOME="${WORKSPACE}"
+      CI_ID="${env.JOB_NAME}-${env.BUILD_ID}"
   }
   stages {
+    stage('Docker Build') {
+      sh 'docker-compose build && docker-compose -p=${CI_ID} up -d'
+    }
     // Verify NPM packages are installed properly
     stage('NPM Install') {
       steps {
-        sh './bin/compose.sh run -rm app npm install'
+        sh 'docker-compose -p=${CI_ID} exec app npm install'
       }
     }
     // Verify the application will build successfully
     stage('Build') {
       steps {
-        sh './bin/compose.sh run -rm app npm run build'
+        sh 'docker-compose -p=${CI_ID} exec app npm run build'
       }
     }
     // Verify the application will pass all karma tests
     stage('Test') {
       steps {
-        sh './bin/compose.sh run -rm app'
+        sh 'docker-compose -p=${CI_ID} exec app npm run test'
       }
     }
     // Verify the application will pass code coverage limits
     stage('Code Coverage') {
       steps {
-        //sh './bin/compose.sh run -rm app npm run test:coverage'
+        //sh 'docker-compose -p=${CI_ID} exec app npm run test:coverage'
         echo 'Code Coverage'
       }
     }
     // Prod Artifact Upload
     stage('Prod Artifact Upload') {
       steps {
-        sh './bin/compose.sh run -rm app npm run build:prod'
+        sh 'docker-compose -p=${CI_ID} exec app npm run build:prod'
 
         // Tar the build artifact with the name being a combination of a branch name and build number
         sh 'tar vczf $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz -C $(pwd)/dist .'
@@ -47,6 +51,10 @@ pipeline {
     }
   }
   post {
+   always{
+    sh 'docker-compose -p=${CI_ID} exec app chmod -R 777 ../app/ ; docker-compose -p=${CI_ID} down -v'
+    sh ''
+   }
    success {
     slackSend color: "good", message:"Passed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
    }
