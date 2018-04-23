@@ -16,6 +16,6 @@ RUN tar zxf /dist.tar.gz -C /usr/share/nginx/html --strip-components=1 \
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint"]
+ENTRYPOINT ["/entrypoint.sh"]
 
 VOLUME /app
