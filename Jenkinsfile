@@ -13,36 +13,36 @@ pipeline {
     // Verify NPM packages are installed properly
     stage('NPM Install') {
       steps {
-        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -t app npm install'
+        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app bash -c "npm install"'
         //temporary fix until we declare another user other then root.
-        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -t app chmod -R 777 ../app/;'
+        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app bash -c "chmod -R 777 ../app/"'
       }
     }
     // Verify the application will build successfully
     stage('Build') {
       steps {
-        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app npm run build'
+        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app bash -c "npm run build"'
         //temporary fix until we declare another user other then root.
-        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app chmod -R 777 ../app/;'
+        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app bash -c "chmod -R 777 ../app/"'
       }
     }
     // Verify the application will pass all karma tests
     stage('Test') {
       steps {
-        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app npm run test'
+        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app bash -c "npm run test"'
       }
     }
     // Verify the application will pass code coverage limits
     stage('Code Coverage') {
       steps {
-        //sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app npm run test:coverage'
+        //sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app bash -c "npm run test:coverage"'
         echo 'Code Coverage'
       }
     }
     // Prod Artifact Upload
     stage('Prod Artifact Upload') {
       steps {
-        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app npm run build:prod'
+        sh '/usr/local/bin/docker-compose -p=${CI_ID} exec -T app bash -c "npm run build:prod"'
 
         // Tar the build artifact with the name being a combination of a branch name and build number
         sh 'tar vczf $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz -C $(pwd)/dist .'
