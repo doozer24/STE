@@ -13,13 +13,23 @@ pipeline {
     // Verify NPM packages are installed properly
     stage('NPM Install') {
       steps {
-        docker.image('app').inside("--network ${CI_ID}_default") {
-          sh "sleep 30";
-          sh "npm install"
-          //temporary fix until we declare another user other then root.
-          sh "chmod -R 777 ../app/"
-        }
+           try {
+              timeout(30) {
+                waitUntil {
+                  "healthy" == sh(returnStdout: true,
+                    script: "docker inspect app --format=\"{{ .State.Health.Status }}\"").trim()
+                }
 
+                docker.image('app').inside("--network ${CI_ID}_default") {
+                  sh "sleep 30";
+                  sh "npm install"
+                  //temporary fix until we declare another user other then root.
+                  sh "chmod -R 777 ../app/"
+                }
+              }
+            } catch {
+              sh "docker-compose logs >integration-test.log"
+            }
       }
     }
     // Verify the application will build successfully
