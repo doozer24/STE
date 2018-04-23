@@ -7,7 +7,7 @@ pipeline {
   stages {
     stage('Docker Build') {
       steps{
-        sh '/usr/local/bin/docker-compose build && docker-compose -p=${CI_ID} up -d'
+        sh '/usr/local/bin/docker-compose build && /usr/local/bin/docker-compose -p=${CI_ID} up -d'
       }
     }
     // Verify NPM packages are installed properly
