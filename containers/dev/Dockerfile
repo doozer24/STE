@@ -16,4 +16,5 @@ RUN chmod +x /entrypoint.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["npm", "start"]
+#being started by entrypoint script no need for command here.
+#CMD ["npm", "start"]
