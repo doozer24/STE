@@ -9,6 +9,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { LoginComponent } from './login/login.component';
 import { CreateTimeCardComponent } from './create-time-card/create-time-card.component';
 import { TimeCardComponent } from './time-card/time-card.component';
+import { HeaderComponent } from './header/header.component';
+import { FooterComponent } from './footer/footer.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent, children:
@@ -27,7 +29,9 @@ const routes: Routes = [
     HomeComponent,
     LoginComponent,
     CreateTimeCardComponent,
-    TimeCardComponent
+    TimeCardComponent,
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
