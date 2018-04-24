@@ -9,6 +9,7 @@ pipeline {
     stage('Build') {
       steps {
         sh './bin/compose.sh -p=${CI_ID} build'
+        //just need to run the install, then we can use docker compose normal.
         sh './bin/compose.sh -p=${CI_ID} run app bash -c "npm install && chmod 777 ../app/"'
         sh './bin/compose.sh -p=${CI_ID} up -d'
         sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build && chmod 777 ../app/"'
@@ -46,7 +47,6 @@ pipeline {
   }
   post {
    always {
-     sh './bin/compose.sh -p=${CI_ID} logs --details app'
      sh './bin/compose.sh -p=${CI_ID} down'
    }
    success {
