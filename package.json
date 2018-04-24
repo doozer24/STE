@@ -8,8 +8,6 @@
     "build": "ng build",
     "test": "ng test",
     "test:selenium": "protractor protractor.conf",
-    "test:headless": "ng test --browser ChromeNoSandbox --single-run",
-    "test:chrome": "ng test --browser Chrome --single-run",
     "test:debug": "ng test --sourcemaps=false",
     "test:coverage": "ng test -cc -sr",
     "lint": "ng lint",
