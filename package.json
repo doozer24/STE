@@ -11,7 +11,6 @@
     "test:headless": "ng test --browser ChromeNoSandbox --single-run",
     "test:chrome": "ng test --browser Chrome --single-run",
     "test:debug": "ng test --sourcemaps=false",
-    "test:chrome:debug": "ng test --browser Chrome --sourcemaps=false",
     "test:coverage": "ng test -cc -sr",
     "lint": "ng lint",
     "e2e": "ng e2e",
