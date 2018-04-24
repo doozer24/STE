@@ -1,6 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+
+import { UserService } from './services/user.service';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
@@ -11,6 +14,7 @@ import { CreateTimeCardComponent } from './create-time-card/create-time-card.com
 import { TimeCardComponent } from './time-card/time-card.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent, children:
@@ -19,7 +23,8 @@ const routes: Routes = [
       {path: 'time-card', component: TimeCardComponent}
     ]
   },
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent},
+  {path: 'recover-password', component: RecoverPasswordComponent}
 ];
 
 @NgModule({
@@ -31,14 +36,16 @@ const routes: Routes = [
     CreateTimeCardComponent,
     TimeCardComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    RecoverPasswordComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes),
-    FlexLayoutModule
+    FlexLayoutModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
