@@ -6,20 +6,28 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { HomeComponent } from './home/home.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { LoginComponent } from './login/login.component';
+import { CreateTimeCardComponent } from './create-time-card/create-time-card.component';
+import { TimeCardComponent } from './time-card/time-card.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent, children:
-  [
-    {path: '', component: HomeComponent}
-  ]
-}
+    [
+      {path: '', component: HomeComponent},
+      {path: 'time-card', component: TimeCardComponent}
+    ]
+  },
+  {path: 'login', component: LoginComponent}
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     MainComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent,
+    CreateTimeCardComponent,
+    TimeCardComponent
   ],
   imports: [
     BrowserModule,
