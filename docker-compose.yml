@@ -11,7 +11,7 @@ services:
     ports:
       - "4200"
     volumes:
-      - "${PROJ_HOME}:/app:ro"
+      - "${PROJ_HOME}:/app"
   selenium:
     image: "selenium/standalone-chrome:3.11.0-californium"
     shm_size: "2gb"
