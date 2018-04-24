@@ -10,15 +10,15 @@ pipeline {
       steps {
         sh './bin/compose.sh -p=${CI_ID} build'
         //just need to run the install, then we can use docker compose normal.
-        sh './bin/compose.sh -p=${CI_ID} run app bash -c "npm install"'
+        sh './bin/compose.sh -p=${CI_ID} run app bash -c "npm install && chmod -R o+rw /app/"'
         sh './bin/compose.sh -p=${CI_ID} up -d'
-        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build"'
+        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build && chmod -R o+rw /app/"'
       }
     }
     // Verify the application will pass all karma tests
     stage('Test') {
       steps {
-        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run test"'
+        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run test && chmod -R o+rw /app/"'
       }
     }
     // Verify the application will pass code coverage limits
@@ -31,7 +31,7 @@ pipeline {
     // Prod Artifact Upload
     stage('Prod Artifact Upload') {
       steps {
-        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build:prod"'
+        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build:prod && chmod -R o+rw /app/"'
 
         // Tar the build artifact with the name being a combination of a branch name and build number
         sh 'tar vczf $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz -C $(pwd)/dist .'
@@ -47,7 +47,7 @@ pipeline {
   }
   post {
    always {
-     sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "chmod -R o+rw ../app/"; ./bin/compose.sh -p=${CI_ID} down'
+     sh './bin/compose.sh -p=${CI_ID} down'
    }
    success {
     //slackSend color: "good", message:"Passed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
