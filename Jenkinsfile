@@ -14,21 +14,20 @@ pipeline {
     stage('NPM Install') {
       steps {
            try {
-              timeout(30) {
-                waitUntil {
-                  "healthy" == sh(returnStdout: true,
-                    script: "docker inspect app --format=\"{{ .State.Health.Status }}\"").trim()
-                }
-
-                docker.image('app').inside("--network ${CI_ID}_default") {
-                  sh "sleep 30";
-                  sh "npm install"
-                  //temporary fix until we declare another user other then root.
-                  sh "chmod -R 777 ../app/"
-                }
+              waitUntil {
+                "healthy" == sh(returnStdout: true,
+                  script: "docker inspect app --format=\"{{ .State.Health.Status }}\"").trim()
               }
-            } catch {
-              sh "docker-compose logs >integration-test.log"
+
+              docker.image('app').inside("--network ${CI_ID}_default") {
+                sh "sleep 30";
+                sh "npm install"
+                //temporary fix until we declare another user other then root.
+                sh "chmod -R 777 ../app/"
+              }
+            } catch(exc) {
+              sh "docker-compose logs > integration-test.log"
+              throw exc
             }
       }
     }
