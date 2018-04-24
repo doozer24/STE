@@ -13,27 +13,12 @@ pipeline {
     // Verify NPM packages are installed properly
     stage('NPM Install') {
       steps {
-           try {
-              waitUntil {
-                "healthy" == sh(returnStdout: true,
-                  script: "docker inspect app --format=\"{{ .State.Health.Status }}\"").trim()
-              }
-
-              docker.image('app').inside("--network ${CI_ID}_default") {
-                sh "sleep 30";
-                sh "npm install"
-                //temporary fix until we declare another user other then root.
-                sh "chmod -R 777 ../app/"
-              }
-            } finally {
-                      try {
-                        step([$class: 'JUnitResultArchiver', testResults: '**/build/integrationTest-results/TEST-*.xml'])
-                      } catch (Exception e) {
-                        // Ignore exception when there are no test results
-                      }
-              sh "docker-compose logs > integration-test.log"
-              throw exc
-            }
+        docker.image('app').inside("--network ${CI_ID}_default") {
+          sh "sleep 30";
+          sh "npm install"
+          //temporary fix until we declare another user other then root.
+          sh "chmod -R 777 ../app/"
+        }
       }
     }
     // Verify the application will build successfully
