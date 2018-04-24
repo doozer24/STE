@@ -9,7 +9,7 @@ services:
     environment:
       PROJ_HOME: ${PROJ_HOME}
     ports:
-      - "4200:4200"
+      - "4200"
     volumes:
       - "${PROJ_HOME}:/app"
   selenium:
