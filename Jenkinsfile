@@ -10,7 +10,7 @@ node {
 
         checkout scm
 
-        docker.image("${CI_ID}_app_1").inside("--network ${CI_ID}_default") {
+        docker.image("app").inside("--network ${CI_ID}_default") {
 
           // Verify NPM packages are installed properly
           stage('NPM Install') {
