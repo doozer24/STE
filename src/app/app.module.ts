@@ -15,11 +15,13 @@ import { TimeCardComponent } from './time-card/time-card.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
+import { TimeCardService } from './services/time-card.service';
 
 const routes: Routes = [
   {path: '', component: MainComponent, children:
     [
       {path: '', component: HomeComponent},
+      {path: 'create-time-card', component: CreateTimeCardComponent},
       {path: 'time-card', component: TimeCardComponent}
     ]
   },
@@ -45,7 +47,10 @@ const routes: Routes = [
     FlexLayoutModule,
     FormsModule
   ],
-  providers: [UserService],
+  providers: [
+    UserService,
+    TimeCardService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TimeCardService } from '../services/time-card.service';
 
 @Component({
   selector: 'app-create-time-card',
@@ -7,9 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CreateTimeCardComponent implements OnInit {
 
-  constructor() { }
+  constructor(private timeCardService: TimeCardService) { }
 
   ngOnInit() {
+  }
+
+  async onSubmit() {
+    const timeCard = await this.timeCardService.createTimeCard();
   }
 
 }

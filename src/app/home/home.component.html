@@ -1,19 +1,35 @@
-<h5>
+<h6 class="page-header">
   Home
-</h5>
-<h3>
+</h6>
+<h2 class="page-subheader">
   Welcome *User Name*
-</h3>
-<div>
+</h2>
+<h4>
   Below is a listing of your time cards
+</h4>
+<div>
+  <table class="usa-table-borderless" style="width: 60%">
+    <thead>
+      <th>Date Range</th>
+      <th>Total Hours</th>
+      <th>Status</th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let timeCard of timeCards">
+        <td>{{timeCard.dateRange}}</td>
+        <td>{{timeCard.hours}}</td>
+        <td>{{timeCard.status}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 <div fxLayout="column">
   <div fxFlex fxLayout="row" fxLayoutAlign="center">
       There are currently no time cards associated with your user id.
   </div>
   <div fxFlex fxLayout="row" fxLayoutAlign="center">
-      <button routerLink="/time-card" class="pure-button pure-button-primary">
+      <button routerLink="/create-time-card" class="usa-button">
           Create Time Card
-        </button>
+      </button>
   </div>
 </div>

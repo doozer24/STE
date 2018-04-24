@@ -1,38 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
-h5 {
-  color: gray
+.page-header {
+  margin-bottom: 5px;
+  margin-top: 0px;
 }
 
-.header {
-  background-color: #000066;
-  color: white;
-  padding: 15px;
-  margin-bottom: 30px
-}
-
-.header > .pure-menu-heading, .header > .pure-menu-list > .pure-menu-item {
-  color: white
-}
-
-.spacer {
-  fxFlex: 0, 1
-}
-
-.pure-menu-heading-right {
-  float: right;
-  margin-right: 50px;
-}
-
-.pure-menu-item.selected {
-  border-bottom: 1px solid grey;
-  border-left: 6px solid #000066;
-}
-
-.pure-menu-item.not-selected {
-  margin-bottom: 1px;
-  margin-left: 6px
-}
-
-.pure-menu-list {
-
+.page-subheader {
+  margin-top: 0px;
+  margin-bottom: 50px
 }
