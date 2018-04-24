@@ -31,7 +31,7 @@ pipeline {
     // Prod Artifact Upload
     stage('Prod Artifact Upload') {
       steps {
-        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build:prod"'
+        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build:prod && chmod -R 777 ../app/"'
 
         // Tar the build artifact with the name being a combination of a branch name and build number
         sh 'tar vczf $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz -C $(pwd)/dist .'
