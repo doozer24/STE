@@ -12,7 +12,7 @@ pipeline {
     }
     // Verify NPM packages are installed properly
     stage('NPM Install') {
-      steps {
+
            try {
               waitUntil {
                 "healthy" == sh(returnStdout: true,
@@ -29,7 +29,7 @@ pipeline {
               sh "docker-compose logs > integration-test.log"
               throw exc
             }
-      }
+
     }
     // Verify the application will build successfully
     stage('Build') {
