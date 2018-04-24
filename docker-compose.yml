@@ -5,7 +5,7 @@ services:
   #container_name: app
     build:
       context: ./containers/dev
-    #command: npm start
+    command: npm run build
     environment:
       PROJ_HOME: ${PROJ_HOME}
     ports:
