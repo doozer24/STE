@@ -12,8 +12,7 @@
     "test:coverage": "ng test -cc -sr",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:prod": "ng build --prod",
-    "test:prod": "npm test -- --browsers ChromiumNoSandbox --single-run && npm run e2e -- --no-delete-output-path"
+    "build:prod": "ng build --prod"
   },
   "private": true,
   "dependencies": {
