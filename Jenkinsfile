@@ -4,13 +4,13 @@ node {
   withEnv(["PROJ_HOME=${WORKSPACE}",
       "CI_ID=${env.JOB_NAME}-${env.BUILD_ID}"]){
     stage('Docker Build') {
-        sh '/usr/local/bin/docker-compose -p=${CI_ID} up --build -d'
+        sh '/usr/local/bin/docker-compose up --build -d'
     }
     stage("Main build") {
 
         checkout scm
 
-        docker.image("${CI_ID}_app").inside("--network ${CI_ID}_default") {
+        docker.image("app").inside("--network sevis-challenge-front_default") {
 
           // Verify NPM packages are installed properly
           stage('NPM Install') {
