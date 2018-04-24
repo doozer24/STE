@@ -1,5 +1,5 @@
 pipeline {
-  agent agent { label 'sevis-demo' }
+  agent { label 'sevis-demo' }
   environment {
      PROJ_HOME="${WORKSPACE}"
      CI_ID="${env.BUILD_ID}"
