@@ -2,10 +2,10 @@ version: '3.4'
 
 services:
   app:
-    container_name: app
+  #container_name: app
     build:
       context: ./containers/dev
-    command: npm start
+    #command: npm start
     environment:
       PROJ_HOME: ${PROJ_HOME}
     ports:
