@@ -12,7 +12,7 @@ pipeline {
     }
     // Verify NPM packages are installed properly
     stage('NPM Install') {
-
+      steps {
            try {
               waitUntil {
                 "healthy" == sh(returnStdout: true,
@@ -25,11 +25,16 @@ pipeline {
                 //temporary fix until we declare another user other then root.
                 sh "chmod -R 777 ../app/"
               }
-            } catch(exc) {
+            } finally {
+                      try {
+                        step([$class: 'JUnitResultArchiver', testResults: '**/build/integrationTest-results/TEST-*.xml'])
+                      } catch (Exception e) {
+                        // Ignore exception when there are no test results
+                      }
               sh "docker-compose logs > integration-test.log"
               throw exc
             }
-
+      }
     }
     // Verify the application will build successfully
     stage('Build') {
