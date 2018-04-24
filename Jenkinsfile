@@ -1,7 +1,8 @@
 #!groovy
+
 node {
-  withEnv(['PROJ_HOME=${WORKSPACE}',
-      'CI_ID=${env.JOB_NAME}-${env.BUILD_ID}']){
+  withEnv(["PROJ_HOME=${WORKSPACE}",
+      "CI_ID=${env.JOB_NAME}-${env.BUILD_ID}"]){
     stage('Docker Build') {
         sh '/usr/local/bin/docker-compose -p=${CI_ID} up --build -d'
     }
