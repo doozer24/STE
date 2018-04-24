@@ -1,8 +1,8 @@
 #!groovy
 node {
   environment {
-      PROJ_HOME="${WORKSPACE}"
-      CI_ID="${env.JOB_NAME}-${env.BUILD_ID}"
+      PROJ_HOME = "${WORKSPACE}"
+      CI_ID = "${env.JOB_NAME}-${env.BUILD_ID}"
   }
   stage('Docker Build') {
       sh '/usr/local/bin/docker-compose -p=${CI_ID} up --build -d'
@@ -42,6 +42,7 @@ node {
           sh 'tar vczf $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz -C $(pwd)/dist .'
          }
       }
+  }
 // Prod Artifact Upload
     stage('Prod Artifact Upload') {
         withCredentials([[
@@ -51,21 +52,7 @@ node {
           sh 'aws s3api put-object --bucket challenge-artifacts --key versions/$BRANCH_NAME/$BRANCH_NAME\\_$BUILD_NUMBER.tar.gz --body $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz'
         }
     }
-
-  }
   // Clean up workspace
-  step([$class: 'WsCleanup'])
-
-  post {
-   always{
-    sh '/usr/local/bin/docker-compose -p=${CI_ID} down -v'
-   }
-   success {
-    slackSend color: "good", message:"Passed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-   }
-   failure {
-     slackSend color: "danger", message:"Failed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-   }
- }
+      step([$class: 'WsCleanup'])
 }
 
