@@ -47,6 +47,9 @@ pipeline {
     }
   }
   post {
+   always {
+     sh './bin/compose.sh -p=${CI_ID} down'
+   }
    success {
     slackSend color: "good", message:"Passed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
    }
