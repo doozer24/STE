@@ -9,7 +9,7 @@ pipeline {
     stage('Build') {
       steps {
         sh './bin/compose.sh build'
-        sh './bin/compose.sh run app bash -c "npm run build"'
+        sh './bin/compose.sh run app bash -c "npm install"'
         sh './bin/compose.sh -p=${CI_ID} up -d'
         sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build"'
 
