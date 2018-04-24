@@ -1,5 +1,5 @@
 import { AppPage } from './app.po';
-// import {tryCatch} from 'rxjs/util/tryCatch';
+import {tryCatch} from 'rxjs/util/tryCatch';
 
 describe('sevis-challenge-frontend App', () => {
   let page: AppPage;
