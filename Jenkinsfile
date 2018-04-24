@@ -2,18 +2,17 @@ pipeline {
   agent any
   environment {
      PROJ_HOME="${WORKSPACE}"
-     CI_ID="${env.JOB_NAME}-${env.BUILD_ID}"
+     CI_ID="${env.BUILD_ID}"
   }
   stages {
-    stage('Docker Build') {
-      steps{
-        sh './bin/compose.sh -p=${CI_ID} up --build -d'
-      }
-    }
     // Verify the application will build successfully
     stage('Build') {
       steps {
+        sh './bin/compose.sh build'
+        sh './bin/compose.sh run app bash -c "npm run build"'
+        sh './bin/compose.sh -p=${CI_ID} up -d'
         sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build"'
+
       }
     }
     // Verify the application will pass all karma tests
