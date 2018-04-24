@@ -6,7 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./time-card.component.css']
 })
 export class TimeCardComponent implements OnInit {
-
+  weekdays = [
+    '4/22',
+    '4/23',
+    '4/24',
+    '4/25',
+    '4/26',
+    '4/27',
+    '4/28'
+  ];
   constructor() { }
 
   ngOnInit() {

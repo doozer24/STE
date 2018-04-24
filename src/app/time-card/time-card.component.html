@@ -1,3 +1,41 @@
-<p>
-  time-card works!
-</p>
+<h6 class="page-header">
+  Time Card
+</h6>
+<h2 class="page-subheader">
+  *Date Range*
+</h2>
+<h4>
+  Status: *Status*
+</h4>
+<span>Delete Time Card</span>
+<table class="usa-table-borderless">
+  <thead>
+    <th>Project Code</th>
+    <th *ngFor="let day of weekdays">
+      {{day}}
+    </th>
+    <th>Total</th>
+  </thead>
+  <tbody>
+    <tr class="usa-form">
+      <td>
+        <select name="options" id="options">
+          <option value>- Select -</option>
+          <option value="value1">Option A</option>
+          <option value="value2">Option B</option>
+          <option value="value3">Option C</option>
+        </select>
+      </td>
+      <td *ngFor="let day of weekdays">
+        <div class="form-group usa-form-group-year">
+          <input class="usa-input-inline" type="number" min="0" max="24">
+        </div>
+      </td>
+      <td>
+        <div class="form-group">
+          <span type="number">0</span>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>

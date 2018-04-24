@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeCardService } from '../services/time-card.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create-time-card',
@@ -8,13 +9,14 @@ import { TimeCardService } from '../services/time-card.service';
 })
 export class CreateTimeCardComponent implements OnInit {
 
-  constructor(private timeCardService: TimeCardService) { }
+  constructor(private timeCardService: TimeCardService, private router: Router) { }
 
   ngOnInit() {
   }
 
   async onSubmit() {
     const timeCard = await this.timeCardService.createTimeCard();
+    this.router.navigate(['time-card']);
   }
 
 }

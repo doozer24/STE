@@ -6,7 +6,7 @@ export class TimeCardService {
   constructor() { }
 
   createTimeCard() {
-
+    return
   }
 
 }
