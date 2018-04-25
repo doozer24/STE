@@ -31,7 +31,6 @@ volumes: [
         ecr_login = readFile('login.txt')
       }
       container('docker') {
-        checkout scm
         withEnv(["ecr_login=${ecr_login}"])  {
           sh '''
         ${ecr_login}
