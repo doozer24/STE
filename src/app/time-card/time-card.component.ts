@@ -45,11 +45,6 @@ export class TimeCardComponent implements OnInit {
     return this.getDateShort(date) + '/' + date.getFullYear();
   }
 
-  getDateRange() {
-    if (!this.timeCard) { return null; }
-    return this.getDateLong(this.timeCard.startDate) + ' - ' + this.getDateLong(this.timeCard.endDate);
-  }
-
   getActiveProjects() {
     if (!this.timeCard) { return null; }
     const projectIds = _.uniq(_.map(this.timeCard.times, 'projectId'));
@@ -91,12 +86,11 @@ export class TimeCardComponent implements OnInit {
     return totalHours;
   }
 
-  getTotalHours() {
-    let totalHours = 0;
-    _.each(this.timeCard.times, function(time) {
-      totalHours += time.hours;
+  getUserProjectsWithoutTime() {
+    const activeProjects = this.getActiveProjects();
+    return _.filter(this.usersProjects, function(project) {
+      return !activeProjects.includes(project);
     });
-    return totalHours;
   }
 
   save() {

@@ -16,8 +16,8 @@
     </thead>
     <tbody>
       <tr *ngFor="let timeCard of timeCards">
-        <td>{{timeCard.dateRange}}</td>
-        <td>{{timeCard.hours}}</td>
+        <td>{{timeCard.getDateRange()}}</td>
+        <td>{{timeCard.getTotalHours()}}</td>
         <td>{{timeCard.status}}</td>
       </tr>
     </tbody>

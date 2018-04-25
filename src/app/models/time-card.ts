@@ -1,3 +1,5 @@
+import * as _ from 'lodash';
+
 export class TimeCard {
   id: number;
   employeeId: number;
@@ -12,6 +14,26 @@ export class TimeCard {
     this.endDate = endDate;
     this.status = status;
     this.times = times;
+  }
+
+  getTotalHours() {
+    let totalHours = 0;
+    _.each(this.times, function(time) {
+      totalHours += time.hours;
+    });
+    return totalHours;
+  }
+
+  getDateShort(date) {
+    return (date.getMonth() + 1) + '/' + date.getDate();
+  }
+
+  getDateLong(date) {
+    return this.getDateShort(date) + '/' + date.getFullYear();
+  }
+
+  getDateRange() {
+    return this.getDateLong(this.startDate) + ' - ' + this.getDateLong(this.endDate);
   }
 }
 

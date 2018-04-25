@@ -2,7 +2,7 @@
   Time Card
 </h6>
 <h2 class="page-subheader">
-  {{getDateRange()}}
+  {{timeCard?.getDateRange()}}
 </h2>
 <div class="page-message">
     <h4>
@@ -38,7 +38,7 @@
       <td>
         <select name="options" id="options">
           <option value>- Select -</option>
-          <option *ngFor="let project of usersProjects" value="project.id">{{project.name}}</option>
+          <option *ngFor="let project of getUserProjectsWithoutTime()" value="project.id">{{project.name}}</option>
         </select>
       </td>
       <td *ngFor="let date of timeCardDates" class="table-cell-disabled">
@@ -53,7 +53,7 @@
         {{getTotalHoursForDate(date)}}
       </td>
       <td class="bold">
-        {{getTotalHours()}}
+        {{timeCard?.getTotalHours()}}
       </td>
     </tr>
   </tbody>
