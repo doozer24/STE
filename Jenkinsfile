@@ -14,16 +14,16 @@ volumes: [
 ])
 {
   node('sevis-front') {
-    stage('Test') {
-      container('node-test') {
-        checkout scm
-        sh """
-        npm install
-        npm run build
-        #npm test
-        """
-      }
-    }
+    // stage('Test') {
+    //   container('node-test') {
+    //     checkout scm
+    //     sh """
+    //     npm install
+    //     npm run build
+    //     #npm test
+    //     """
+    //   }
+    // }
     stage('Build') {
       def ecr_login = ""
       container('aws') {
