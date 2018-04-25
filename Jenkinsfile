@@ -14,16 +14,21 @@ volumes: [
 ])
 {
   node('sevis-front') {
-    stage('Test') {
-      container('node-test') {
-        checkout scm
-        sh """
-        npm install
-        npm run build
-        #npm test
-        """
+    try{
+      stage('Test') {
+        container('node-test') {
+          checkout scm
+          sh """
+          npm install
+          npm run build
+          #npm test
+          """
+        }
       }
+    finally {
+        junit 'build/reports/**/*.xml'
     }
+
     stage('Build') {
       def ecr_login = ""
       container('aws') {
@@ -41,7 +46,7 @@ volumes: [
         }
       }
     }
-    stage('Deploy') {
+    stage('Deploy to staging') {
       container('kubectl') {
         sh '''
         cat kube/deployments/sevis-challenge-front.yaml | sed s/latest/${BUILD_NUMBER}/g | kubectl replace --namespace=staging -f -
