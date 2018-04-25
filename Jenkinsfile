@@ -41,14 +41,13 @@ volumes: [
         }
       }
     }
-    // stage('Deploy') {
-    //   container('kubectl') {
-    //     checkout scm
-    //     sh '''
-    //     cat kube/deployments/rails.yaml | sed s/latest/${BUILD_NUMBER}/g | kubectl replace --namespace=oc-test -f -
-    //     '''
-    //   }
-    // }
+    stage('Deploy') {
+      container('kubectl') {
+        sh '''
+        cat kube/deployments/sevis-challenge-front.yaml | sed s/latest/${BUILD_NUMBER}/g | kubectl replace --namespace=staging -f -
+        '''
+      }
+    }
   }
 }
 
