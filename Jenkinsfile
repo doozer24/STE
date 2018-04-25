@@ -38,8 +38,8 @@ volumes: [
           sh '''
         ${ecr_login}
         docker build -t sevis-challenge-front .
-        docker tag sevis-challenge-front 788232951588.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BUILD_NUMBER}
-        docker push 788232951588.dkr.ecr.us-east-1.amazonaws.com/open-cabinet:${BUILD_NUMBER}
+        docker tag sevis-challenge-front 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BUILD_NUMBER}
+        docker push 036167247202.dkr.ecr.us-east-1.amazonaws.com/open-cabinet:${BUILD_NUMBER}
         '''
         }
       }
