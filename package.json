@@ -5,17 +5,27 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --host=0.0.0.0",
-    "build": "ng build --prod",
+    "build": "ng build --dev",
     "test": "ng test",
+    "test:selenium": "protractor protractor.conf",
+    "test:debug": "ng test --sourcemaps=false",
+    "test:coverage": "ng test -cc -sr",
+    "test:chrome:debug": "ng test --browser Chrome --sourcemaps=false",
+    "test:headless": "ng test --browser ChromeNoSandbox --single-run",
+    "test:chrome": "ng test --browser Chrome --single-run",
+    "test:prod": "npm test -- --browsers ChromiumNoSandbox --single-run && npm run e2e -- --no-delete-output-path",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:prod": "ng build --prod"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "^5.2.0",
+    "@angular/cdk": "^5.2.5",
     "@angular/common": "^5.2.0",
     "@angular/compiler": "^5.2.0",
     "@angular/core": "^5.2.0",
+    "@angular/flex-layout": "^5.0.0-beta.14",
     "@angular/forms": "^5.2.0",
     "@angular/http": "^5.2.0",
     "@angular/platform-browser": "^5.2.0",
@@ -23,6 +33,7 @@
     "@angular/router": "^5.2.0",
     "core-js": "^2.4.1",
     "rxjs": "^5.5.6",
+    "uswds": "^1.6.2",
     "zone.js": "^0.8.19"
   },
   "devDependencies": {
