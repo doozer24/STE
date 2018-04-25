@@ -11,3 +11,8 @@ FROM nginx:1.13-alpine
 COPY --from=0 /dist.tar.gz /
 RUN tar zxf /dist.tar.gz -C /usr/share/nginx/html --strip-components=1 \
  && rm /dist.tar.gz
+
+
+VOLUME /app
+
+CMD ["npm", "start"]

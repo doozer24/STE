@@ -1,17 +1,13 @@
 version: '3.4'
-
 services:
   app:
-  #container_name: app
+    container_name: app
     build:
       context: ./containers/dev
     command: npm start
     environment:
       PROJ_HOME: ${PROJ_HOME}
     ports:
-      - "4200"
+      - "4200:4200"
     volumes:
-      - "${PROJ_HOME}:/app"
-  selenium:
-    image: "selenium/standalone-chrome:3.11.0-californium"
-    shm_size: "2gb"
+      - "${PROJ_HOME}/:/app"
