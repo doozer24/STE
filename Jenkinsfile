@@ -1,17 +1,17 @@
 podTemplate(label: 'sevis-front', containers: [
-  containerTemplate(name: 'node-test', image: 'slapers/alpine-node-chromium', command: 'cat', ttyEnabled: true)
-  // containerTemplate(name: 'docker', image: 'docker:dind', command: 'cat', ttyEnabled: true, privileged: true),
+  containerTemplate(name: 'node-test', image: 'slapers/alpine-node-chromium', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'docker', image: 'docker:dind', command: 'cat', ttyEnabled: true, privileged: true),
   // containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:latest', command: 'cat', ttyEnabled: true),
   // containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
-  // containerTemplate(name: 'aws', image: 'mesosphere/aws-cli', command: 'cat', ttyEnabled: true,
-  // envVars: [
-  // secretEnvVar(key: "AWS_ACCESS_KEY_ID", secretName: 'awscreds', secretKey: 'access_key'),
-  // secretEnvVar(key: "AWS_SECRET_ACCESS_KEY", secretName: 'awscreds', secretKey: 'secret_key')
-  // ])
+  containerTemplate(name: 'aws', image: 'mesosphere/aws-cli', command: 'cat', ttyEnabled: true,
+  envVars: [
+  secretEnvVar(key: "AWS_ACCESS_KEY_ID", secretName: 'awscreds', secretKey: 'access_key'),
+  secretEnvVar(key: "AWS_SECRET_ACCESS_KEY", secretName: 'awscreds', secretKey: 'secret_key')
+  ])
+]),
+volumes: [
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
 ])
-// volumes: [
-//   hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
-// ])
 {
   node('sevis-front') {
     stage('Test') {
@@ -20,29 +20,30 @@ podTemplate(label: 'sevis-front', containers: [
         sh """
         npm install
         npm run build
-        npm test
-
+        #npm test
         """
+        stash name: "sevis-front-build"
       }
     }
-    // stage('Build') {
-    //   def ecr_login = ""
-    //   container('aws') {
-    //     sh "aws ecr get-login --no-include-email --region us-east-1 > login.txt"
-    //     ecr_login = readFile('login.txt')
-    //   }
-    //   container('docker') {
-    //     checkout scm
-    //     withEnv(["ecr_login=${ecr_login}"])  {
-    //       sh '''
-    //     ${ecr_login}
-    //     docker build -t open-cabinet .
-    //     docker tag open-cabinet 788232951588.dkr.ecr.us-east-1.amazonaws.com/open-cabinet:${BUILD_NUMBER}
-    //     docker push 788232951588.dkr.ecr.us-east-1.amazonaws.com/open-cabinet:${BUILD_NUMBER}
-    //     '''
-    //     }
-    //   }
-    // }
+    stage('Build') {
+      def ecr_login = ""
+      container('aws') {
+        sh "aws ecr get-login --no-include-email --region us-east-1 > login.txt"
+        ecr_login = readFile('login.txt')
+      }
+      container('docker') {
+        unstash "sevis-front-build"
+        sh "ls"
+        withEnv(["ecr_login=${ecr_login}"])  {
+          sh '''
+        ${ecr_login}
+        docker build -t sevis-challenge-front .
+        docker tag sevis-challenge-front 788232951588.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BUILD_NUMBER}
+        docker push 788232951588.dkr.ecr.us-east-1.amazonaws.com/open-cabinet:${BUILD_NUMBER}
+        '''
+        }
+      }
+    }
     // stage('Deploy') {
     //   container('kubectl') {
     //     checkout scm
