@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  timeCards;
+  timeCards = [
+    {dateRange: '4/23-4/28', hours: 12, status: 'Not Submitted', id: 1}
+  ];
   constructor() { }
 
   ngOnInit() {

@@ -7,3 +7,21 @@
   margin-top: 0px;
   margin-bottom: 50px
 }
+
+.page-message {
+  margin-bottom: 100px;
+  margin-top: 0px
+}
+
+.table-cell-disabled {
+  background-color: #d6d7d9
+}
+
+.table-total {
+  text-align: right;
+  font-weight: bold;
+}
+
+.bold {
+  font-weight: bold;
+}

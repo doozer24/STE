@@ -2,40 +2,62 @@
   Time Card
 </h6>
 <h2 class="page-subheader">
-  *Date Range*
+  {{getDateRange()}}
 </h2>
-<h4>
-  Status: *Status*
-</h4>
-<span>Delete Time Card</span>
+<div class="page-message">
+    <h4>
+      Status: {{timeCard?.status}}
+    </h4>
+    <span>Delete Time Card</span>
+</div>
 <table class="usa-table-borderless">
   <thead>
     <th>Project Code</th>
-    <th *ngFor="let day of weekdays">
-      {{day}}
+    <th *ngFor="let date of timeCardDates">
+      {{getDateShort(date)}}
     </th>
     <th>Total</th>
   </thead>
   <tbody>
-    <tr class="usa-form">
+    <tr class="usa-form" *ngFor="let project of getActiveProjects()">
       <td>
-        <select name="options" id="options">
-          <option value>- Select -</option>
-          <option value="value1">Option A</option>
-          <option value="value2">Option B</option>
-          <option value="value3">Option C</option>
-        </select>
+          {{project.name}}
       </td>
-      <td *ngFor="let day of weekdays">
-        <div class="form-group usa-form-group-year">
-          <input class="usa-input-inline" type="number" min="0" max="24">
+      <td *ngFor="let date of timeCardDates">
+        <div class="form-group usa-form-group-month">
+          <input class="usa-input-inline" type="text" value="{{getHoursForProjectAndDate(project.id, date)}}">
         </div>
       </td>
       <td>
         <div class="form-group">
-          <span type="number">0</span>
+          <span type="number" class="bold">{{getTotalProjectHours(project.id)}}</span>
         </div>
+      </td>
+    </tr>
+    <tr class="usa-form">
+      <td>
+        <select name="options" id="options">
+          <option value>- Select -</option>
+          <option *ngFor="let project of usersProjects" value="project.id">{{project.name}}</option>
+        </select>
+      </td>
+      <td *ngFor="let date of timeCardDates" class="table-cell-disabled">
+      </td>
+      <td class="table-cell-disabled">
+
+      </td>
+    </tr>
+    <tr>
+      <td class="table-total">Total Hours</td>
+      <td *ngFor="let date of timeCardDates">
+        {{getTotalHoursForDate(date)}}
+      </td>
+      <td class="bold">
+        {{getTotalHours()}}
       </td>
     </tr>
   </tbody>
 </table>
+<div>
+  <button class="usa-button" (click)="save()">Sign Time Card</button>
+</div>

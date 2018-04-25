@@ -4,10 +4,10 @@
 <h2 class="page-subheader">
   Welcome *User Name*
 </h2>
-<h4>
+<h4 class="page-message">
   Below is a listing of your time cards
 </h4>
-<div>
+<div *ngIf="timeCards">
   <table class="usa-table-borderless" style="width: 60%">
     <thead>
       <th>Date Range</th>
@@ -23,13 +23,15 @@
     </tbody>
   </table>
 </div>
-<div fxLayout="column">
-  <div fxFlex fxLayout="row" fxLayoutAlign="center">
-      There are currently no time cards associated with your user id.
-  </div>
-  <div fxFlex fxLayout="row" fxLayoutAlign="center">
-      <button routerLink="/create-time-card" class="usa-button">
-          Create Time Card
-      </button>
+<div *ngIf="!timeCards" class="usa-grid-full">
+  <div class="usa-width-two-thirds">
+    <div fxFlex fxLayout="row" fxLayoutAlign="center">
+        There are currently no time cards associated with your user id.
+    </div>
+    <div fxFlex fxLayout="row" fxLayoutAlign="center">
+        <button routerLink="/create-time-card" class="usa-button">
+            Create Time Card
+        </button>
+    </div>
   </div>
 </div>
