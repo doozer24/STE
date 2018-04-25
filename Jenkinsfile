@@ -22,7 +22,6 @@ volumes: [
         npm run build
         #npm test
         """
-        stash name: "sevis-front-build"
       }
     }
     stage('Build') {
@@ -32,8 +31,7 @@ volumes: [
         ecr_login = readFile('login.txt')
       }
       container('docker') {
-        unstash name: "sevis-front-build"
-        sh "ls"
+        checkout scm
         withEnv(["ecr_login=${ecr_login}"])  {
           sh '''
         ${ecr_login}
