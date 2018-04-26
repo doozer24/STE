@@ -35,6 +35,8 @@ volumes: [
         sh "ls ${nodeHome}/bin"
         sh """
         export PATH=\$PATH:${nodeHome}/bin
+        node --version
+        ${nodeHome}/bin/node --version
         ${scannerHome}/bin/sonar-scanner
         """
       }
