@@ -21,10 +21,11 @@ volumes: [
           sh """
           npm install
           npm run build
-          #npm test
+          npm test
           """
         }
       }
+    }
     finally {
         junit 'build/reports/**/*.xml'
     }
@@ -54,4 +55,3 @@ volumes: [
     }
   }
 }
-
