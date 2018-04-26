@@ -20,6 +20,9 @@ module.exports = function (config) {
       reports: [ 'html', 'lcovonly' ],
       fixWebpackSourcePaths: true
     },
+    junitReporter: {
+      outputDir: './reports',
+    }
     angularCli: {
       environment: 'dev'
     },
