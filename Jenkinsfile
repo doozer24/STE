@@ -18,16 +18,15 @@ volumes: [
       stage('Test') {
         container('node-test') {
           checkout scm
-          sh """
-          npm install
-          npm run build
-          npm test
-          """
+          sh "npm install"
+          sh "npm run build"
+          sh "npm test"
+          sh "find ."
         }
       }
     }
     finally {
-        junit 'build/reports/**/*.xml'
+        junit './**/*.xml'
     }
 
     stage('Build') {
