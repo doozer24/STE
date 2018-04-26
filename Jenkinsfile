@@ -31,7 +31,7 @@ volumes: [
     stage('Static Analysis') {
       def scannerHome = tool 'sonar-scanner';
       withSonarQubeEnv('sonarqube') {
-        sh "curl http://quarreling-hyena-sonarqube:9000"
+        sh "ping quarreling-hyena-sonarqube"
         sh "${scannerHome}/bin/sonar-scanner"
       }
     }
