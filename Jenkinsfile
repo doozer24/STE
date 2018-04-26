@@ -29,11 +29,10 @@ volumes: [
     }
 
     stage('Static Analysis') {
-      container('node-test') {
-        def scannerHome = tool 'sonar-scanner';
-        withSonarQubeEnv('sonarqube') {
-          sh "${scannerHome}/bin/sonar-scanner"
-        }
+      def scannerHome = tool 'sonar-scanner';
+      tool 'node'
+      withSonarQubeEnv('sonarqube') {
+        sh "${scannerHome}/bin/sonar-scanner"
       }
     }
 
