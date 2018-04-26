@@ -29,13 +29,10 @@ volumes: [
     }
 
     stage('Static Analysis') {
-      timeout(time: 5, unit: 'MINUTES') {
-        retry(3) {
-          def scannerHome = tool 'sonar-scanner';
-          withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner"
-          }
-        }
+      def scannerHome = tool 'sonar-scanner';
+      withSonarQubeEnv('sonarqube') {
+        sh "curl http://quarreling-hyena-sonarqube:9000"
+        sh "${scannerHome}/bin/sonar-scanner"
       }
     }
 
