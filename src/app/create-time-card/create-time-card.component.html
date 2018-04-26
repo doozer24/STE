@@ -1,3 +1,20 @@
-<p>
-  create-time-card works!
-</p>
+<h6 class="page-header">
+  Time Card
+</h6>
+<h2 class="page-subheader">
+  Create New Time Card
+</h2>
+<h4 class="page-message">
+  Complete the following information to create a new time card:
+</h4>
+<form class="usa-form" (ngSubmit)="onSubmit()">
+  <label for="options">Time Card Date Range</label>
+  <select name="options" id="options" [(ngModel)]="selectedDateRange">
+    <option value>- Select Time Range-</option>
+    <option *ngFor="let range of dateRanges" value="range">{{getDateRange(range)}}</option>
+  </select>
+  <div class="form-group">
+    <input class="button-full" type="submit" value="Create Time Card">
+    <button class="usa-button-secondary" routerLink='/' >Cancel</button>
+  </div>
+</form>
