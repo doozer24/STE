@@ -30,9 +30,13 @@ volumes: [
 
     stage('Static Analysis') {
       def scannerHome = tool 'sonar-scanner';
-      tool 'node'
+      def nodeHome = tool 'node'
       withSonarQubeEnv('sonarqube') {
-        sh "${scannerHome}/bin/sonar-scanner"
+        sh "ls ${nodeHome}"
+        sh """
+        export PATH=\$PATH:${nodeHome}
+        ${scannerHome}/bin/sonar-scanner
+        """
       }
     }
 
