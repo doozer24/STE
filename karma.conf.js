@@ -22,7 +22,7 @@ module.exports = function (config) {
     },
     junitReporter: {
       outputDir: './reports',
-    }
+    },
     angularCli: {
       environment: 'dev'
     },
