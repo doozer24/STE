@@ -26,7 +26,7 @@ volumes: [
       }
     }
     finally {
-        junit './reports/*.xml'
+        junit 'reports/*.xml'
     }
 
     stage('Build') {
