@@ -21,7 +21,6 @@ volumes: [
           sh "npm install"
           sh "npm run build"
           sh "npm test"
-          sh "find ."
         }
       }
     }
