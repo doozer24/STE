@@ -2,9 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { UserService } from './services/user.service';
-import { DialogModule } from 'primeng/dialog'
+import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
@@ -19,9 +19,10 @@ import { FooterComponent } from './footer/footer.component';
 import { RecoverPasswordComponent } from './recover-password/recover-password.component';
 import { TimeCardService } from './services/time-card.service';
 import { ProjectService } from './services/project.service';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
-  {path: '', component: MainComponent, children:
+  {path: '', component: MainComponent, canActivate: [AuthGuardService], children:
     [
       {path: '', component: HomeComponent},
       {path: 'create-time-card', component: CreateTimeCardComponent},
@@ -49,14 +50,15 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FlexLayoutModule,
     FormsModule,
-    HttpClientModule,
+    HttpModule,
     DialogModule,
     BrowserAnimationsModule
   ],
   providers: [
     UserService,
     TimeCardService,
-    ProjectService
+    ProjectService,
+    AuthGuardService
   ],
   bootstrap: [AppComponent]
 })
