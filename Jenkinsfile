@@ -18,16 +18,14 @@ volumes: [
       stage('Test') {
         container('node-test') {
           checkout scm
-          sh """
-          npm install
-          npm run build
-          npm test
-          """
+          sh "npm install"
+          sh "npm run build"
+          sh "npm test"
         }
       }
     }
     finally {
-        junit 'build/reports/**/*.xml'
+        junit 'reports/*.xml'
     }
 
     stage('Build') {
@@ -35,6 +33,7 @@ volumes: [
       container('aws') {
         sh "aws ecr get-login --no-include-email --region us-east-1 > login.txt"
         ecr_login = readFile('login.txt')
+      }
       container('docker') {
         withEnv(["ecr_login=${ecr_login}"])  {
           sh '''
