@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { CreateTimeCardComponent } from './create-time-card.component';
+import { TimeCardService } from '../services/time-card.service';
+import { ProjectService } from '../services/project.service';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('CreateTimeCardComponent', () => {
   let component: CreateTimeCardComponent;
@@ -8,7 +12,9 @@ describe('CreateTimeCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateTimeCardComponent ]
+      imports: [FormsModule, RouterTestingModule],
+      declarations: [ CreateTimeCardComponent ],
+      providers: [TimeCardService, ProjectService]
     })
     .compileComponents();
   }));

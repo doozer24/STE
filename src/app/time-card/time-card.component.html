@@ -1,3 +1,63 @@
-<p>
-  time-card works!
-</p>
+<h6 class="page-header">
+  Time Card
+</h6>
+<h2 class="page-subheader">
+  {{timeCard?.getDateRange()}}
+</h2>
+<div class="page-message">
+    <h4>
+      Status: {{timeCard?.status}}
+    </h4>
+    <span>Delete Time Card</span>
+</div>
+<table class="usa-table-borderless">
+  <thead>
+    <th>Project Code</th>
+    <th *ngFor="let date of timeCardDates">
+      {{getDateShort(date)}}
+    </th>
+    <th>Total</th>
+  </thead>
+  <tbody>
+    <tr class="usa-form" *ngFor="let project of getActiveProjects()">
+      <td>
+          {{project.name}}
+      </td>
+      <td *ngFor="let date of timeCardDates">
+        <div class="form-group usa-form-group-month">
+          <input class="usa-input-inline" type="text" value="{{getHoursForProjectAndDate(project.id, date)}}">
+        </div>
+      </td>
+      <td>
+        <div class="form-group">
+          <span type="number" class="bold">{{getTotalProjectHours(project.id)}}</span>
+        </div>
+      </td>
+    </tr>
+    <tr class="usa-form">
+      <td>
+        <select name="options" id="options">
+          <option value>- Select -</option>
+          <option *ngFor="let project of getUserProjectsWithoutTime()" value="project.id">{{project.name}}</option>
+        </select>
+      </td>
+      <td *ngFor="let date of timeCardDates" class="table-cell-disabled">
+      </td>
+      <td class="table-cell-disabled">
+
+      </td>
+    </tr>
+    <tr>
+      <td class="table-total">Total Hours</td>
+      <td *ngFor="let date of timeCardDates">
+        {{getTotalHoursForDate(date)}}
+      </td>
+      <td class="bold">
+        {{timeCard?.getTotalHours()}}
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div>
+  <button class="usa-button" (click)="save()">Sign Time Card</button>
+</div>

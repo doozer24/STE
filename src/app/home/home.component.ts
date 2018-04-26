@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { TimeCardService } from '../services/time-card.service';
+import { ProjectService } from '../services/project.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+  timeCards;
+  userProjects;
+  constructor(private timeCardService: TimeCardService) { }
 
-  constructor() { }
-
-  ngOnInit() {
+  async ngOnInit() {
+    this.timeCards = await this.timeCardService.getActiveTimeCardsForUser("userId");
   }
 
 }
