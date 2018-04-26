@@ -35,6 +35,7 @@ volumes: [
       container('aws') {
         sh "aws ecr get-login --no-include-email --region us-east-1 > login.txt"
         ecr_login = readFile('login.txt')
+      }
       container('docker') {
         withEnv(["ecr_login=${ecr_login}"])  {
           sh '''
