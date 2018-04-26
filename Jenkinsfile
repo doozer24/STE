@@ -32,7 +32,7 @@ volumes: [
     stage('Static Analysis') {
       container('node-sonarqube') {
         withSonarQubeEnv('sonarqube') {
-          sh "sonar-scanner"
+          sh "sonar-scanner -X"
         }
       }
     }
