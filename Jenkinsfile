@@ -32,7 +32,7 @@ volumes: [
       def scannerHome = tool 'sonar-scanner';
       def nodeHome = tool 'node'
       withSonarQubeEnv('sonarqube') {
-        sh "ls ${nodeHome}/bin"
+        sh "ls -lh ${nodeHome}/bin"
         sh """
         export PATH=\$PATH:${nodeHome}/bin
         ${nodeHome}/bin/node --version
