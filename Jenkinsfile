@@ -27,6 +27,7 @@ volumes: [
     }
     finally {
         junit 'reports/*.xml'
+        archive (includes: 'coverage/*')
     }
 
     stage('Static Analysis') {
