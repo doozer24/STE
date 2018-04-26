@@ -1,61 +1,56 @@
-pipeline {
-  agent { label 'sevis-demo' }
-  environment {
-     PROJ_HOME="${WORKSPACE}"
-     CI_ID="${env.BUILD_ID}"
-  }
-  stages {
-    // Verify the application will build successfully
-    stage('Build') {
-      steps {
-        sh './bin/compose.sh -p=${CI_ID} build'
-        //just need to run the install, then we can use docker compose normal.
-        sh './bin/compose.sh -p=${CI_ID} run app bash -c "npm install && chmod -R o+rw /app/"'
-        sh './bin/compose.sh -p=${CI_ID} up -d'
-        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build && chmod -R o+rw /app/"'
-      }
-    }
-    // Verify the application will pass all karma tests
-    stage('Test') {
-      steps {
-        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run test && chmod -R o+rw /app/"'
-      }
-    }
-    // Verify the application will pass code coverage limits
-    stage('Code Coverage') {
-      steps {
-        //sh './bin/compose.sh run app npm run test:coverage'
-        echo 'Code Coverage'
-      }
-    }
-    // Prod Artifact Upload
-    stage('Prod Artifact Upload') {
-      steps {
-        sh './bin/compose.sh -p=${CI_ID} exec -T app bash -c "npm run build:prod && chmod -R o+rw /app/"'
-
-        // Tar the build artifact with the name being a combination of a branch name and build number
-        sh 'tar vczf $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz -C $(pwd)/dist .'
-
-        withCredentials([[
-        $class: "AmazonWebServicesCredentialsBinding",
-        credentialsId: "techchallenge_aws"]]) {
-          // Upload tar'd build artifact to S3
-          sh 'aws s3api put-object --bucket challenge-artifacts --key versions/$BRANCH_NAME/$BRANCH_NAME\\_$BUILD_NUMBER.tar.gz --body $BRANCH_NAME\\_$BUILD_NUMBER.tar.gz'
+podTemplate(label: 'sevis-front', containers: [
+  containerTemplate(name: 'node-test', image: 'slapers/alpine-node-chromium', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'docker', image: 'docker:dind', command: 'cat', ttyEnabled: true, privileged: true),
+  containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:latest', command: 'cat', ttyEnabled: true),
+  // containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
+  containerTemplate(name: 'aws', image: 'mesosphere/aws-cli', command: 'cat', ttyEnabled: true,
+  envVars: [
+  secretEnvVar(key: "AWS_ACCESS_KEY_ID", secretName: 'awscreds', secretKey: 'key'),
+  secretEnvVar(key: "AWS_SECRET_ACCESS_KEY", secretName: 'awscreds', secretKey: 'secret')
+  ])
+],
+volumes: [
+  hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+])
+{
+  node('sevis-front') {
+    try{
+      stage('Test') {
+        container('node-test') {
+          checkout scm
+          sh "npm install"
+          sh "npm run build"
+          sh "npm test"
         }
       }
     }
+    finally {
+        junit 'reports/*.xml'
+    }
+
+    stage('Build') {
+      def ecr_login = ""
+      container('aws') {
+        sh "aws ecr get-login --no-include-email --region us-east-1 > login.txt"
+        ecr_login = readFile('login.txt')
+      }
+      container('docker') {
+        withEnv(["ecr_login=${ecr_login}"])  {
+          sh '''
+        ${ecr_login}
+        docker build -t sevis-challenge-front .
+        docker tag sevis-challenge-front 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BUILD_NUMBER}
+        docker push 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BUILD_NUMBER}
+        '''
+        }
+      }
+    }
+    stage('Deploy to staging') {
+      container('kubectl') {
+        sh '''
+        cat kube/deployments/sevis-challenge-front.yaml | sed s/latest/${BUILD_NUMBER}/g | kubectl replace --namespace=staging -f -
+        '''
+      }
+    }
   }
-  post {
-   always {
-     sh './bin/compose.sh -p=${CI_ID} down'
-   }
-   success {
-    slackSend color: "good", message:"Passed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-    echo "job passed"
-   }
-   failure {
-     slackSend color: "danger", message:"Failed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-      echo "job failed"
-   }
- }
 }
