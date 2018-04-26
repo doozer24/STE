@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TimeCardComponent } from './time-card.component';
 import { TimeCardService } from '../services/time-card.service';
 import { ProjectService } from '../services/project.service';
+import { FormsModule } from '@angular/forms';
 
 describe('TimeCardComponent', () => {
   let component: TimeCardComponent;
@@ -10,9 +11,9 @@ describe('TimeCardComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TimeCardComponent ],
-      imports: [RouterTestingModule],
-      providers: [TimeCardService, ProjectService]
+      declarations: [ TimeCardComponent, ],
+      imports: [RouterTestingModule, FormsModule],
+      providers: [TimeCardService, ProjectService, PDialogComponent]
     })
     .compileComponents();
   }));
@@ -27,3 +28,10 @@ describe('TimeCardComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'p-dialog',
+  template: ''
+})
+class PDialogComponent {
+}

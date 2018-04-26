@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoginComponent } from './login.component';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../services/user.service';
-import { HttpClient, HttpHandler } from '@angular/common/http';
+import { Http } from '@angular/http';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('LoginComponent', () => {
@@ -14,7 +14,7 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule],
       declarations: [ LoginComponent ],
-      providers: [UserService, HttpClient, HttpHandler]
+      providers: [UserService, Http]
     })
     .compileComponents();
   }));
