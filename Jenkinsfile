@@ -32,6 +32,7 @@ volumes: [
     stage('Static Analysis') {
       container('node-sonarqube') {
         withSonarQubeEnv('sonarqube') {
+          sh "ls coverage"
           sh "sonar-scanner -X"
         }
       }
