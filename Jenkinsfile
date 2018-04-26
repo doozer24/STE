@@ -28,7 +28,18 @@ volumes: [
         junit 'reports/*.xml'
     }
 
-    stage('Build') {
+    stage('Static Analysis') {
+      timeout(time: 5, unit: 'MINUTES') {
+        retry(3) {
+          def scannerHome = tool 'sonar-scanner';
+          withSonarQubeEnv('sonarqube') {
+            sh "${scannerHome}/bin/sonar-scanner -X"
+          }
+        }
+      }
+    }
+
+    stage('Build Container') {
       def ecr_login = ""
       container('aws') {
         sh "aws ecr get-login --no-include-email --region us-east-1 > login.txt"
