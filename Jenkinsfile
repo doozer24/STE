@@ -33,7 +33,8 @@ volumes: [
         retry(3) {
           def scannerHome = tool 'sonar-scanner';
           withSonarQubeEnv('sonarqube') {
-            sh "${scannerHome}/bin/sonar-scanner"
+            sh "${scannerHome}/bin/sonar-scanner -X"
+>>>>>>> added sonarqube step
           }
         }
       }
