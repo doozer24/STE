@@ -1,0 +1,9 @@
+footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+}
+
+.left-align-footer {
+    margin-left: 30px;
+}
