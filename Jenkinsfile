@@ -31,11 +31,8 @@ volumes: [
     stage('Static Analysis') {
       container('node-test') {
         def scannerHome = tool 'sonar-scanner';
-        def nodeHome = tool 'node'
         withSonarQubeEnv('sonarqube') {
           sh """
-          export PATH=\$PATH:${nodeHome}/bin
-          ${nodeHome}/bin/node --version
           ${scannerHome}/bin/sonar-scanner
           """
         }
