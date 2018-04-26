@@ -1,5 +1,5 @@
 podTemplate(label: 'sevis-front', containers: [
-  containerTemplate(name: 'node-test', image: 'slapers/alpine-node-chromium', command: 'cat', ttyEnabled: true, resourceLimitMemory: '2Gi'),
+  containerTemplate(name: 'node-test', image: 'slapers/alpine-node-chromium', command: 'cat', privileged: true, ttyEnabled: true, resourceLimitMemory: '2Gi'),
   containerTemplate(name: 'docker', image: 'docker:dind', command: 'cat', ttyEnabled: true, privileged: true),
   containerTemplate(name: 'kubectl', image: 'lachlanevenson/k8s-kubectl:latest', command: 'cat', ttyEnabled: true),
   // containerTemplate(name: 'helm', image: 'lachlanevenson/k8s-helm:latest', command: 'cat', ttyEnabled: true),
@@ -29,15 +29,16 @@ volumes: [
     }
 
     stage('Static Analysis') {
-      def scannerHome = tool 'sonar-scanner';
-      def nodeHome = tool 'node'
-      withSonarQubeEnv('sonarqube') {
-        sh """
-        export PATH=\$PATH:${nodeHome}/bin
-        npm -v
-        ${nodeHome}/bin/node --version
-        ${scannerHome}/bin/sonar-scanner
-        """
+      container('node-test') {
+        def scannerHome = tool 'sonar-scanner';
+        def nodeHome = tool 'node'
+        withSonarQubeEnv('sonarqube') {
+          sh """
+          export PATH=\$PATH:${nodeHome}/bin
+          ${nodeHome}/bin/node --version
+          ${scannerHome}/bin/sonar-scanner
+          """
+        }
       }
     }
 
