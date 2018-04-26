@@ -4,6 +4,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './services/user.service';
+import { DialogModule } from 'primeng/dialog'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
@@ -47,7 +49,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     FlexLayoutModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DialogModule,
+    BrowserAnimationsModule
   ],
   providers: [
     UserService,
