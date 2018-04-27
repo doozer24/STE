@@ -31,9 +31,9 @@ describe('TimeCardComponent', () => {
   });
 });
 
-@Component({
-  selector: 'p-dialog',
-  template: ''
-})
-class PDialogComponent {
-}
+// @Component({
+//   selector: 'p-dialog',
+//   template: ''
+// })
+// class PDialogComponent {
+// }
