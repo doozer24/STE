@@ -49,18 +49,19 @@ volumes: [
           sh '''
         ${ecr_login}
         docker build -t sevis-challenge-front .
-        docker tag sevis-challenge-front 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BUILD_NUMBER}
-        docker push 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BUILD_NUMBER}
+        docker tag sevis-challenge-front 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${GIT_BRANCH}${BUILD_NUMBER}
+        docker push 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${GIT_BRANCH}${BUILD_NUMBER}
         '''
         }
       }
     }
-    stage('Deploy to staging') {
-      container('kubectl') {
-        sh '''
-        cat kube/deployments/sevis-challenge-front.yaml | sed s/latest/${BUILD_NUMBER}/g | kubectl replace --namespace=staging -f -
-        '''
-
+    if (env.BRANCH_NAME == 'master') {
+      stage('Deploy to staging') {
+        container('kubectl') {
+          sh '''
+          cat kube/deployments/sevis-challenge-front.yaml | sed s/latest/${GIT_BRANCH}${BUILD_NUMBER}/g | kubectl replace --namespace=staging -f -
+          '''
+        }
       }
     }
   }
