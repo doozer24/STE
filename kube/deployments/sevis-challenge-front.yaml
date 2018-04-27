@@ -26,7 +26,8 @@ spec:
     spec:
       containers:
       - name: sevis-challenge-front
-        image: 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:latest
+        image: 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:TAG
         imagePullPolicy: Always
         ports:
           - containerPort: 4200
+         
