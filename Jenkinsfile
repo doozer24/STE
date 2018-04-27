@@ -21,13 +21,13 @@ volumes: [
           checkout scm
           sh "npm install"
           sh "npm run build"
-          sh "npm run test:coverage"
+          sh "npm test"
         }
       }
     }
     finally {
         junit 'reports/*.xml'
-        archive (includes: 'coverage/*')
+        archive (includes: 'coverage/*,coverage/**/*')
     }
 
     stage('Static Analysis') {
@@ -60,6 +60,7 @@ volumes: [
         sh '''
         cat kube/deployments/sevis-challenge-front.yaml | sed s/latest/${BUILD_NUMBER}/g | kubectl replace --namespace=staging -f -
         '''
+
       }
     }
   }
