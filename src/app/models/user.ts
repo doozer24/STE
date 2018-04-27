@@ -12,4 +12,9 @@ export class User {
   password: string;
   email: string;
   phoneNumber: number;
+
+  constructor(firstName: string, lastName: string) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+  }
 }

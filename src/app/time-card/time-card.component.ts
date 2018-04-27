@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TimeCardService } from '../services/time-card.service';
 import { TimeCard, Time } from '../models/time-card';
 import { Project } from '../models/project';
@@ -17,9 +17,11 @@ export class TimeCardComponent implements OnInit {
   usersProjects: Array<Project>;
   timeCardDates: Array<Date>;
   dialogDisplay = false;
+  deleteDialogDisplay = false;
   currentEditedTime: Time;
   newRowProjectId;
   constructor(private route: ActivatedRoute,
+    private router: Router,
     private timeCardService: TimeCardService,
     private projectService: ProjectService) { }
 
@@ -27,7 +29,8 @@ export class TimeCardComponent implements OnInit {
     this.timeCardId = this.route.snapshot.params.id;
     this.timeCard = await this.timeCardService.getTimeCard(this.timeCardId);
     this.timeCardDates = this.getDates(this.timeCard.startDate, this.timeCard.endDate);
-    this.usersProjects = await this.projectService.getUsersProjects('userId');
+    const projectResponse = await this.projectService.getUsersProjects('userId') as any;
+    this.usersProjects = projectResponse.data as Array<Project>;
   }
 
   getDates(startDate, stopDate) {
@@ -137,6 +140,11 @@ export class TimeCardComponent implements OnInit {
       this.currentEditedTime = new Time(date, null, null, projectId);
     }
     this.dialogDisplay = true;
+  }
+
+  async deleteTimeCard() {
+    await this.timeCardService.deleteTimeCard(this.timeCardId);
+    this.router.navigate(['/']);
   }
 
 }
