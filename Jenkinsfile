@@ -20,7 +20,7 @@ volumes: [
           checkout scm
           sh "npm install"
           sh "npm run build"
-          sh "npm test"
+          sh "npm run test:coverage"
         }
       }
     }
