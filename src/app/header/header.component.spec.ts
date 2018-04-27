@@ -11,7 +11,7 @@ describe('HeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ HeaderComponent ],
-      providers: [UserService, Http],
+      providers: [UserService],
       imports: [ HttpModule]
     })
     .compileComponents();

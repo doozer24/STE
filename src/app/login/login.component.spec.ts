@@ -14,7 +14,7 @@ describe('LoginComponent', () => {
     TestBed.configureTestingModule({
       imports: [FormsModule, RouterTestingModule, HttpModule],
       declarations: [ LoginComponent ],
-      providers: [UserService, Http, ConnectionBackend]
+      providers: [UserService, ConnectionBackend]
     })
     .compileComponents();
   }));

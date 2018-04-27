@@ -6,6 +6,7 @@ import { ProjectService } from '../services/project.service';
 import { FormsModule } from '@angular/forms';
 import { Component } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('TimeCardComponent', () => {
   let component: TimeCardComponent;
@@ -14,7 +15,7 @@ describe('TimeCardComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ TimeCardComponent, ],
-      imports: [RouterTestingModule, FormsModule, DialogModule],
+      imports: [RouterTestingModule, FormsModule, DialogModule, BrowserAnimationsModule],
       providers: [TimeCardService, ProjectService]
     })
     .compileComponents();
