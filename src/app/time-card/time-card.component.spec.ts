@@ -4,6 +4,7 @@ import { TimeCardComponent } from './time-card.component';
 import { TimeCardService } from '../services/time-card.service';
 import { ProjectService } from '../services/project.service';
 import { FormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
 
 describe('TimeCardComponent', () => {
   let component: TimeCardComponent;
