@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TimeCardService } from '../services/time-card.service';
-import { TimeCard } from '../models/time-card';
+import { TimeCard, Time } from '../models/time-card';
 import { Project } from '../models/project';
 import { ProjectService } from '../services/project.service';
 import * as _ from 'lodash';
@@ -16,6 +16,9 @@ export class TimeCardComponent implements OnInit {
   timeCard: TimeCard;
   usersProjects: Array<Project>;
   timeCardDates: Array<Date>;
+  dialogDisplay = false;
+  currentEditedTime: Time;
+  newRowProjectId;
   constructor(private route: ActivatedRoute,
     private timeCardService: TimeCardService,
     private projectService: ProjectService) { }
@@ -42,6 +45,7 @@ export class TimeCardComponent implements OnInit {
   }
 
   getDateLong(date) {
+    if (!date) { return null; }
     return this.getDateShort(date) + '/' + date.getFullYear();
   }
 
@@ -50,6 +54,19 @@ export class TimeCardComponent implements OnInit {
     const projectIds = _.uniq(_.map(this.timeCard.times, 'projectId'));
     return _.filter(this.usersProjects, function(project) {
       return projectIds.includes(project.id);
+    });
+  }
+
+  getUserProjectsWithoutTime() {
+    const activeProjects = this.getActiveProjects();
+    return _.filter(this.usersProjects, function(project) {
+      return !activeProjects.includes(project);
+    });
+  }
+
+  getProjectById(projectId: number) {
+    return _.find(this.usersProjects, function(project) {
+      return project.id === projectId;
     });
   }
 
@@ -86,15 +103,40 @@ export class TimeCardComponent implements OnInit {
     return totalHours;
   }
 
-  getUserProjectsWithoutTime() {
-    const activeProjects = this.getActiveProjects();
-    return _.filter(this.usersProjects, function(project) {
-      return !activeProjects.includes(project);
-    });
-  }
 
   save() {
 
+  }
+
+  saveTimeEntry() {
+    const that = this;
+    const existingEntry = _.find(this.timeCard.times, function(t) {
+      return t.projectId === that.currentEditedTime.projectId && t.date.getTime() === that.currentEditedTime.date.getTime();
+    });
+    if (!existingEntry) {
+      this.timeCard.times.push(this.currentEditedTime);
+    }
+    if (this.currentEditedTime.projectId === parseInt(this.newRowProjectId)) {
+      this.newRowProjectId = null;
+    }
+    this.currentEditedTime = null;
+    this.dialogDisplay = false;
+  }
+
+  cancelTimeEntry() {
+    this.currentEditedTime = null;
+    this.dialogDisplay = false;
+  }
+
+  modifyTimeEntry(projectId, date) {
+    projectId = parseInt(projectId);
+    this.currentEditedTime = _.find(this.timeCard.times, function(t) {
+      return t.projectId === projectId && t.date.getTime() === date.getTime();
+    });
+    if (!this.currentEditedTime) {
+      this.currentEditedTime = new Time(date, null, null, projectId);
+    }
+    this.dialogDisplay = true;
   }
 
 }

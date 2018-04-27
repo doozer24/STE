@@ -21,11 +21,11 @@
   <tbody>
     <tr class="usa-form" *ngFor="let project of getActiveProjects()">
       <td>
-          {{project.name}}
+        {{project.name}}
       </td>
       <td *ngFor="let date of timeCardDates">
         <div class="form-group usa-form-group-month">
-          <input class="usa-input-inline" type="text" value="{{getHoursForProjectAndDate(project.id, date)}}">
+          <input (click)="modifyTimeEntry(project.id, date)" class="usa-input-inline" type="text" value="{{getHoursForProjectAndDate(project.id, date)}}">
         </div>
       </td>
       <td>
@@ -36,16 +36,27 @@
     </tr>
     <tr class="usa-form">
       <td>
-        <select name="options" id="options">
+        <select name="options" id="options" [(ngModel)]="newRowProjectId">
           <option value>- Select -</option>
-          <option *ngFor="let project of getUserProjectsWithoutTime()" value="project.id">{{project.name}}</option>
+          <option *ngFor="let project of getUserProjectsWithoutTime()" value="{{project.id}}">{{project.name}}</option>
         </select>
       </td>
-      <td *ngFor="let date of timeCardDates" class="table-cell-disabled">
+      <ng-container *ngIf="!newRowProjectId">
+        <td *ngFor="let date of timeCardDates" class="table-cell-disabled"></td>
+        <td class="table-cell-disabled"></td>
+      </ng-container>
+      <ng-container *ngIf="newRowProjectId">
+      <td *ngFor="let date of timeCardDates">
+        <div class="form-group usa-form-group-month">
+          <input (click)="modifyTimeEntry(newRowProjectId, date)" class="usa-input-inline" type="text" value="{{getHoursForProjectAndDate(newRowProjectId, date)}}">
+        </div>
       </td>
-      <td class="table-cell-disabled">
-
+      <td>
+        <div class="form-group">
+          <span type="number" class="bold">{{getTotalProjectHours(newRowProjectId)}}</span>
+        </div>
       </td>
+      </ng-container>
     </tr>
     <tr>
       <td class="table-total">Total Hours</td>
@@ -61,3 +72,35 @@
 <div>
   <button class="usa-button" (click)="save()">Sign Time Card</button>
 </div>
+
+<p-dialog [(visible)]="dialogDisplay"  [modal]="true" [responsive]="true" [width]="450" [minWidth]="200" [minY]="70">
+    <div>
+      <h6 class="page-header">
+        Time Card
+      </h6>
+      <h3>
+        {{getDateLong(currentEditedTime?.date)}}
+      </h3>
+      <h5>
+        {{getProjectById(currentEditedTime?.projectId)?.name}}
+      </h5>
+      <div class="usa-grid-full">
+        <div class="usa-width-one-half">
+          <label for="code">Hour</label>
+          <input *ngIf="currentEditedTime" class="usa-input-inline" type="number" [(ngModel)]="currentEditedTime.hours" min="0" max="24">
+        </div>
+        <div class="usa-width-one-half">
+         <label>Minute</label>
+          <input class="usa-input-inline" type="number" value="" min="0" max="59">
+        </div>
+      </div>
+      <div>
+        <label for="input-type-textarea">Time Entry Notes</label>
+        <textarea id="input-type-textarea" name="input-type-textarea"></textarea>
+      </div>
+    </div>
+    <div>
+      <button class="usa-button" (click)="saveTimeEntry()" >Save Time Entry</button>
+      <button class="usa-button-secondary" (click)="cancelTimeEntry()" >Cancel</button>
+    </div>
+</p-dialog>

@@ -20,8 +20,11 @@ export class LoginComponent implements OnInit {
 
   async onSubmit() {
     const response = await this.userService.login(this.login.username, this.login.password);
-    this.errorMessage = 'There was an error logging in.';
-    // this.router.navigate(['/']);
+    if (response.error) {
+      this.errorMessage = 'There was an error logging in.';
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
 }
