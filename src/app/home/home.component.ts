@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { TimeCardService } from '../services/time-card.service';
 import { ProjectService } from '../services/project.service';
+import { User } from '../models/user';
+import { Project } from '../models/project';
+import { TimeCard } from '../models/time-card';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +12,16 @@ import { ProjectService } from '../services/project.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  timeCards;
-  userProjects;
-  constructor(private timeCardService: TimeCardService) { }
+  timeCards: Array<TimeCard>;
+  userProjects: Array<Project>;
+  user: User;
+  userId: string;
+  constructor(private timeCardService: TimeCardService, private userService: UserService) { }
 
   async ngOnInit() {
-    this.timeCards = await this.timeCardService.getActiveTimeCardsForUser("userId");
+    this.userId = localStorage.getItem('timeAndAdminUserId');
+    this.user = await this.userService.getUser(this.userId);
+    this.timeCards = await this.timeCardService.getActiveTimeCardsForUser(this.userId);
   }
 
 }

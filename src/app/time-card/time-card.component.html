@@ -8,57 +8,68 @@
     <h4>
       Status: {{timeCard?.status}}
     </h4>
-    <span>Delete Time Card</span>
+    <span (click)="deleteDialogDisplay=true">Delete Time Card</span>
 </div>
 <table class="usa-table-borderless">
   <thead>
     <th>Project Code</th>
+    <th>Task</th>
     <th *ngFor="let date of timeCardDates">
       {{getDateShort(date)}}
     </th>
     <th>Total</th>
   </thead>
   <tbody>
-    <tr class="usa-form" *ngFor="let project of getActiveProjects()">
+    <tr class="usa-form" *ngFor="let time of getUniqueProjectAndTask()">
       <td>
-        {{project.name}}
+        {{getProjectById(time.projectId)?.name}}
+      </td>
+      <td>
+        {{getTask(time.projectId, time.taskId)?.name}}
       </td>
       <td *ngFor="let date of timeCardDates">
         <div class="form-group usa-form-group-month">
-          <input (click)="modifyTimeEntry(project.id, date)" class="usa-input-inline" type="text" value="{{getHoursForProjectAndDate(project.id, date)}}">
+          <input (click)="modifyTimeEntry(time.projectId, time.taskId, date)" class="usa-input-inline" type="text" value="{{getHoursForProjectTaskAndDate(time.projectId, time.taskId, date)}}">
         </div>
       </td>
       <td>
         <div class="form-group">
-          <span type="number" class="bold">{{getTotalProjectHours(project.id)}}</span>
+          <span type="number" class="bold">{{getTotalProjectHours(time.projectId, time.taskId)}}</span>
         </div>
       </td>
     </tr>
-    <tr class="usa-form">
+    <tr class="usa-form" *ngIf="timeCard?.status === 'In Progress'">
       <td>
-        <select name="options" id="options" [(ngModel)]="newRowProjectId">
+        <select name="options" id="options" [(ngModel)]="newRowProjectId" (ngModelChange)="onProjectChange()">
           <option value>- Select -</option>
-          <option *ngFor="let project of getUserProjectsWithoutTime()" value="{{project.id}}">{{project.name}}</option>
+          <option *ngFor="let project of usersProjects" value="{{project.id}}">{{project.name}}</option>
         </select>
       </td>
-      <ng-container *ngIf="!newRowProjectId">
+      <td>
+        <select *ngIf="newRowProjectId" name="options" id="options" [(ngModel)]="newRowTaskId" (ngModelChange)="onTaskChange()">
+          <option value>- Select -</option>
+          <option *ngFor="let task of getProjectTasksWithoutTime(newRowProjectId)" value="{{task.id}}">{{task.name}}</option>
+        </select>
+      </td>
+      <ng-container *ngIf="!newRowTaskId">
         <td *ngFor="let date of timeCardDates" class="table-cell-disabled"></td>
         <td class="table-cell-disabled"></td>
       </ng-container>
-      <ng-container *ngIf="newRowProjectId">
+      <ng-container *ngIf="newRowTaskId">
       <td *ngFor="let date of timeCardDates">
         <div class="form-group usa-form-group-month">
-          <input (click)="modifyTimeEntry(newRowProjectId, date)" class="usa-input-inline" type="text" value="{{getHoursForProjectAndDate(newRowProjectId, date)}}">
+          <input (click)="modifyTimeEntry(newRowProjectId, newRowTaskId, date)" class="usa-input-inline" type="text" value="{{getHoursForProjectTaskAndDate(newRowProjectId, newRowTaskId, date)}}">
         </div>
       </td>
       <td>
         <div class="form-group">
-          <span type="number" class="bold">{{getTotalProjectHours(newRowProjectId)}}</span>
+          <span type="number" class="bold">{{getTotalProjectHours(newRowProjectId, newRowTaskId)}}</span>
         </div>
       </td>
       </ng-container>
     </tr>
     <tr>
+      <td></td>
       <td class="table-total">Total Hours</td>
       <td *ngFor="let date of timeCardDates">
         {{getTotalHoursForDate(date)}}
@@ -70,7 +81,8 @@
   </tbody>
 </table>
 <div>
-  <button class="usa-button" (click)="save()">Sign Time Card</button>
+  <button class="usa-button" (click)="save()">Save</button>
+  <button class="usa-button" (click)="submitTimeCard()">Sign Time Card</button>
 </div>
 
 <p-dialog [(visible)]="dialogDisplay"  [modal]="true" [responsive]="true" [width]="450" [minWidth]="200" [minY]="70">
@@ -82,17 +94,12 @@
         {{getDateLong(currentEditedTime?.date)}}
       </h3>
       <h5>
-        {{getProjectById(currentEditedTime?.projectId)?.name}}
+        {{getProjectById(currentEditedTime?.projectId)?.name}} - {{getTask(currentEditedTime?.projectId, currentEditedTime?.taskId)?.name}}
       </h5>
-      <div class="usa-grid-full">
-        <div class="usa-width-one-half">
+      <div [ngClass]="{'usa-input-error': currentEditedTimeError, 'usa-input-no-error': !currentEditedTimeError}">
           <label for="code">Hour</label>
-          <input *ngIf="currentEditedTime" class="usa-input-inline" type="number" [(ngModel)]="currentEditedTime.hours" min="0" max="24">
-        </div>
-        <div class="usa-width-one-half">
-         <label>Minute</label>
-          <input class="usa-input-inline" type="number" value="" min="0" max="59">
-        </div>
+          <input *ngIf="currentEditedTime" type="number" [(ngModel)]="currentEditedTime.hours" min="0" max="24" (ngModelChange)="onEditedTimeChange()">
+          <div class="error-text">{{currentEditedTimeError}}</div>
       </div>
       <div>
         <label for="input-type-textarea">Time Entry Notes</label>
@@ -100,7 +107,17 @@
       </div>
     </div>
     <div>
-      <button class="usa-button" (click)="saveTimeEntry()" >Save Time Entry</button>
+      <button [disabled]="!currentEditedTime || !currentEditedTime.hours || currentEditedTimeError" class="usa-button" (click)="saveTimeEntry()" >Save Time Entry</button>
       <button class="usa-button-secondary" (click)="cancelTimeEntry()" >Cancel</button>
+    </div>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteDialogDisplay"  [modal]="true" [responsive]="true" [width]="450" [minWidth]="200" [minY]="70">
+    <div>
+      Are you sure you want to delete this time card?
+    </div>
+    <div>
+      <button class="usa-button" (click)="deleteTimeCard()" >Delete</button>
+      <button class="usa-button-secondary" (click)="deleteDialogDisplay=false" >Cancel</button>
     </div>
 </p-dialog>
