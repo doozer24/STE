@@ -22,11 +22,12 @@ export class Task {
   category: string;
   rate: number;
 
-  constructor(name: string, chargeCode: string, category: string, rate: number) {
+  constructor(name: string, chargeCode: string, category: string, rate: number, id: number = null) {
     this.name = name;
     this.chargeCode = chargeCode;
     this.category = category;
     this.rate = rate;
+    this.id = id;
   }
 }
 

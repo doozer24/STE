@@ -16,7 +16,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let timeCard of timeCards">
-        <td>{{timeCard.getDateRange()}}</td>
+        <td><a routerLink="/time-card/{{timeCard.id}}">{{timeCard.getDateRange()}}</a></td>
         <td>{{timeCard.getTotalHours()}}</td>
         <td>{{timeCard.status}}</td>
       </tr>
