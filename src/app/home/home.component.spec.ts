@@ -4,7 +4,7 @@ import { HomeComponent } from './home.component';
 import { TimeCardService } from '../services/time-card.service';
 import { HttpModule } from '@angular/http';
 import { UserService } from '../services/user.service';
-import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -14,7 +14,7 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ HomeComponent ],
       providers: [ TimeCardService, UserService ],
-      imports: [HttpModule, RouterModule]
+      imports: [HttpModule, RouterTestingModule]
     })
     .compileComponents();
   }));
