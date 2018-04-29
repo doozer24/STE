@@ -22,16 +22,17 @@ export class CreateTimeCardComponent implements OnInit {
      private router: Router) { }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('timeAndAdminUser')) as User;
+    this.user = JSON.parse(localStorage.getItem('timeAndAdminUser'));
     this.userTimeCards = this.timeCardService.getActiveTimeCardsForUser(this.user.loginId);
     this.setDateRanges();
   }
 
   async onSubmit(): Promise<any> {
     const that = this;
+    if (!this.selectedDateRange) { return null; }
     this.timeCardService.createTimeCard(this.selectedDateRange.startDate,
       this.selectedDateRange.endDate, this.user.loginId).then(function(timeCard) {
-        that.router.navigate(['time-card/' + timeCard.data.id]);
+        that.router.navigate(['time-card/' + timeCard.data.id]).catch();
       });
   }
 
