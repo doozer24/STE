@@ -5,9 +5,9 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class TimeCardService {
-  // port = 'sevis-challenge-back-time:8080';
-  port = 'http://localhost:8082';
 
+  port = 'http://sevis-challenge-back-time:8080';
+  //port = 'http://localhost:8080';
   constructor(private http: Http) { }
 
   async createTimeCard(startDate: Date, endDate: Date, loginId: string): Promise<any> {
