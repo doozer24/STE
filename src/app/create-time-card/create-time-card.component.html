@@ -9,9 +9,9 @@
 </h4>
 <form class="usa-form" (ngSubmit)="onSubmit()">
   <label for="options">Time Card Date Range</label>
-  <select name="options" id="options" [(ngModel)]="selectedDateRange">
+  <select name="options" id="options" [(ngModel)]="selectedDateRange" >
     <option value>- Select Time Range-</option>
-    <option *ngFor="let range of dateRanges" value="range">{{getDateRange(range)}}</option>
+    <option *ngFor="let range of dateRanges;" [ngValue]="range">{{getDateRange(range)}}</option>
   </select>
   <div class="form-group">
     <input class="button-full" type="submit" value="Create Time Card">

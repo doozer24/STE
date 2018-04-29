@@ -29,11 +29,15 @@ export class TimeCardComponent implements OnInit {
     private projectService: ProjectService) { }
 
   async ngOnInit() {
+    const that = this;
     this.timeCardId = this.route.snapshot.params.id;
-    this.timeCard = await this.timeCardService.getTimeCard(this.timeCardId);
-    this.timeCardDates = this.getDates(this.timeCard.startDate, this.timeCard.endDate);
-    const projectResponse = await this.projectService.getUsersProjects('userId') as any;
-    this.usersProjects = projectResponse.data as Array<Project>;
+    this.timeCardService.getTimeCard(this.timeCardId).then(function(timeCard) {
+      that.timeCard = timeCard.data ;
+      that.timeCardDates = that.getDates(that.timeCard.startDate, that.timeCard.endDate);
+      that.projectService.getUsersProjects('userId').then(function(projectResponse) {
+        that.usersProjects = projectResponse.data as Array<Project>;
+      });
+    });
   }
 
   getDates(startDate, stopDate) {

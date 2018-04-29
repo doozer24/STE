@@ -19,9 +19,11 @@ export class HomeComponent implements OnInit {
   constructor(private timeCardService: TimeCardService, private userService: UserService) { }
 
   async ngOnInit() {
-    this.userId = localStorage.getItem('timeAndAdminUserId');
-    this.user = await this.userService.getUser(this.userId);
-    this.timeCards = await this.timeCardService.getActiveTimeCardsForUser(this.userId);
+    const that = this;
+    this.user = JSON.parse(localStorage.getItem('timeAndAdminUser'));
+    this.timeCardService.getActiveTimeCardsForUser(this.user.loginId).then(function(timeCards) {
+      this.timeCards = timeCards.data;
+    });
   }
 
 }

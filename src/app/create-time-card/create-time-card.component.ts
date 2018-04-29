@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Project } from '../models/project';
 import { ProjectService } from '../services/project.service';
 import * as _ from 'lodash';
+import { TimeCard } from '../models/time-card';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-create-time-card',
@@ -14,19 +16,23 @@ export class CreateTimeCardComponent implements OnInit {
   dateRanges;
   selectedDateRange;
   userTimeCards;
+  user: User;
   constructor(private timeCardService: TimeCardService,
       private projectService: ProjectService,
      private router: Router) { }
 
   ngOnInit() {
-    this.userTimeCards = this.timeCardService.getActiveTimeCardsForUser("userId");
+    this.user = JSON.parse(localStorage.getItem('timeAndAdminUser')) as User;
+    this.userTimeCards = this.timeCardService.getActiveTimeCardsForUser(this.user.loginId);
     this.setDateRanges();
   }
 
-  async onSubmit() {
-    const timeCard = await this.timeCardService.createTimeCard(this.selectedDateRange.startDate,
-      this.selectedDateRange.endDate);
-    this.router.navigate(['time-card/' + timeCard.id]);
+  async onSubmit(): Promise<any> {
+    const that = this;
+    this.timeCardService.createTimeCard(this.selectedDateRange.startDate,
+      this.selectedDateRange.endDate, this.user.loginId).then(function(timeCard) {
+        that.router.navigate(['time-card/' + timeCard.data.id]);
+      });
   }
 
   setDateRanges() {

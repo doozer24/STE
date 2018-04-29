@@ -8,7 +8,7 @@ export class TimeCard {
   status: string;
   times: Array<Time>;
 
-  constructor(employeeId: number, startDate: Date, endDate: Date, status: string, times: Array<Time>) {
+  constructor(employeeId: number, startDate: Date, endDate: Date, status: string = null, times: Array<Time> = null) {
     this.employeeId = employeeId;
     this.startDate = startDate;
     this.endDate = endDate;

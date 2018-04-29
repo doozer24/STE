@@ -15,7 +15,7 @@ export class UserService {
       that.http.post(that.port + '/user/login', { userName: username, password: password}, {headers: headers})
       .map(res => res.json())
       .subscribe(data => {
-          localStorage.setItem('timeAndAdminUserId', data.id);
+          localStorage.setItem('timeAndAdminUser', JSON.stringify({loginId: username}));
           resolve({data: data, error: null});
         },
         error => {
@@ -26,7 +26,7 @@ export class UserService {
   }
 
   logout() {
-    localStorage.removeItem('timeAndAdminUserId');
+    localStorage.removeItem('timeAndAdminUser');
   }
 
   getUser(userId) {
