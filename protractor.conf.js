@@ -24,6 +24,10 @@ exports.config = {
     defaultTimeoutInterval: 30000,
     print: function() {}
   },
+  plugins: [{
+    axe: true,
+    package: 'protractor-accessibility-plugin'
+  }],
   onPrepare() {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
