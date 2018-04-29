@@ -5,7 +5,9 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class ProjectService {
-  port = 'http://localhost:8090';
+  //port = 'http://localhost:8090';
+  port = 'sevis-challenge-back-project:8080';
+
   constructor(private http: Http) { }
 
   async getUsersProjects(userId) {
