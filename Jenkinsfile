@@ -37,7 +37,7 @@ volumes: [
         }
       }
     }
-
+    if (env.BRANCH_NAME == 'master') {
     stage('Build Container') {
       def ecr_login = ""
       container('aws') {
@@ -55,7 +55,6 @@ volumes: [
         }
       }
     }
-    if (env.BRANCH_NAME == 'master') {
       lock('staging') {
         stage('Deploy to staging') {
           container('kubectl') {
