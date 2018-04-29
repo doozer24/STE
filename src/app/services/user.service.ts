@@ -5,8 +5,8 @@ import { User } from '../models/user';
 
 @Injectable()
 export class UserService {
-  //port = 'http://localhost:8080';
-  port = 'sevis-challenge-back-user:8080';
+  port = 'http://localhost:8080';
+  // port = 'sevis-challenge-back-user:8080';
   constructor(private http: Http) { }
 
   async login(username: string, password: string): Promise<any> {

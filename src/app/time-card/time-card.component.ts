@@ -34,7 +34,7 @@ export class TimeCardComponent implements OnInit {
     this.timeCardService.getTimeCard(this.timeCardId).then(function(timeCard) {
       that.timeCard = timeCard.data ;
       that.timeCardDates = that.getDates(that.timeCard.startDate, that.timeCard.endDate);
-      that.projectService.getUsersProjects('userId').then(function(projectResponse) {
+      that.projectService.getAllProjects().then(function(projectResponse) {
         that.usersProjects = projectResponse.data as Array<Project>;
       });
     });
@@ -61,30 +61,29 @@ export class TimeCardComponent implements OnInit {
 
   getUniqueProjectAndTask() {
     if (!this.timeCard) { return null; }
-    return _.uniqBy(this.timeCard.times, function(time) {
+    return _.uniqBy(this.timeCard.time, function(time) {
       return [time.projectId, time.taskId].join();
     });
   }
 
   getProjectTasksWithoutTime(projectId) {
     const that = this;
-    projectId = projectId;
     const project = this.getProjectById(projectId);
     if (!project) { return null; }
     return _.filter(project.tasks, function(task) {
-      return !_.find(that.timeCard.times, function(time) {
+      return !_.find(that.timeCard.time, function(time) {
         return time.projectId === projectId && time.taskId === task.id;
       });
     });
   }
 
-  getProjectById(projectId: number) {
+  getProjectById(projectId) {
     return _.find(this.usersProjects, function(project) {
       return project.id === projectId;
     });
   }
 
-  getTask(projectId: number, taskId: number) {
+  getTask(projectId, taskId) {
     const project = this.getProjectById(projectId);
     if (!project) { return null; }
     return _.find(project.tasks, function(task) {
@@ -95,7 +94,7 @@ export class TimeCardComponent implements OnInit {
   getTotalProjectHours(projectId: number, taskId: number) {
     if (!this.timeCard) { return 0; }
     let totalHours = 0;
-    _.each(this.timeCard.times, function(time) {
+    _.each(this.timeCard.time, function(time) {
       if (time.projectId === projectId && time.taskId === taskId) {
         totalHours += time.hours;
       }
@@ -105,7 +104,7 @@ export class TimeCardComponent implements OnInit {
 
   getTimeForProjectAndDate(projectId: number, taskId: number, date: Date) {
     if (!this.timeCard) { return null; }
-    return _.find(this.timeCard.times, function(time) {
+    return _.find(this.timeCard.time, function(time) {
       return time.projectId === projectId && time.taskId === taskId && time.date.getTime() === date.getTime();
     });
   }
@@ -117,7 +116,7 @@ export class TimeCardComponent implements OnInit {
 
   getTotalHoursForDate(date) {
     let totalHours = 0;
-    _.each(this.timeCard.times, function(time) {
+    _.each(this.timeCard.time, function(time) {
       if (time.date.getTime() === date.getTime()) {
         totalHours += time.hours;
       }
@@ -127,24 +126,26 @@ export class TimeCardComponent implements OnInit {
 
 
   async save() {
-    await this.timeCardService.saveTimeCard(this.timeCard);
-    this.router.navigate(['/']);
+    const that = this;
+    this.timeCardService.saveTimeCard(this.timeCard).then(function(response) {
+      that.router.navigate(['/']);
+    });
   }
 
   async submitTimeCard() {
-    this.timeCard.status = 'Submitted';
+    this.timeCard.status = 'SUBMITTED';
     await this.timeCardService.saveTimeCard(this.timeCard);
     this.router.navigate(['/']);
   }
 
   saveTimeEntry() {
     const that = this;
-    const existingEntry = _.find(this.timeCard.times, function(t) {
+    const existingEntry = _.find(this.timeCard.time, function(t) {
       return t.projectId === that.currentEditedTime.projectId && t.taskId === that.currentEditedTime.taskId
       && t.date.getTime() === that.currentEditedTime.date.getTime();
     });
     if (!existingEntry) {
-      this.timeCard.times.push(this.currentEditedTime);
+      this.timeCard.time.push(this.currentEditedTime);
     }
     if (this.currentEditedTime.projectId === this.newRowProjectId
         && this.currentEditedTime.taskId === this.newRowTaskId) {
@@ -161,7 +162,7 @@ export class TimeCardComponent implements OnInit {
   }
 
   modifyTimeEntry(projectId, taskId, date) {
-    this.currentEditedTime = _.find(this.timeCard.times, function(t) {
+    this.currentEditedTime = _.find(this.timeCard.time, function(t) {
       return t.projectId === projectId &&  t.taskId === taskId && t.date.getTime() === date.getTime();
     });
     if (!this.currentEditedTime) {

@@ -5,12 +5,9 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class TimeCardService {
-<<<<<<< HEAD
+  // port = 'sevis-challenge-back-time:8080';
   port = 'http://localhost:8082';
-=======
-  port = 'sevis-challenge-back-time:8080';
-  //port = 'http://localhost:8080';
->>>>>>> master
+
   constructor(private http: Http) { }
 
   async createTimeCard(startDate: Date, endDate: Date, loginId: string): Promise<any> {
@@ -44,7 +41,7 @@ export class TimeCardService {
       that.http.get(that.port + '/time/id/' + id)
       .map(res => res.json())
       .subscribe(data => {
-          resolve({data: that.convertJsonToTimeCard(data), error: null});
+          resolve({data: that.convertJsonToTimeCard(data, id), error: null});
         },
         error => {
           resolve({data: null, error: error});
@@ -80,17 +77,28 @@ export class TimeCardService {
   }
 
   saveTimeCard(timeCard) {
-    return;
+    const that = this;
+    return new Promise(resolve => {
+      that.http.put(that.port + '/time/id/' + timeCard.id, timeCard.time)
+      .map(res => res.json())
+      .subscribe(data => {
+          resolve({data: data, error: null});
+        },
+        error => {
+          resolve({data: null, error: error});
+        }
+      );
+    });
   }
 
   deleteTimeCard(timeCardId) {
     return;
   }
 
-  convertJsonToTimeCard (json) {
-    const timeCard = new TimeCard(json.employee, new Date(json.startDate), new Date(json.endDate), json.status);
-    _.each(json.times, function(time) {
-      timeCard.times.push(new Time(time.date, time.hours, time.taskId, time.projectId));
+  convertJsonToTimeCard (json, id) {
+    const timeCard = new TimeCard(id, json.employee, new Date(json.startDate), new Date(json.endDate), json.status);
+    _.each(json.time, function(time) {
+      timeCard.time.push(new Time(new Date(time.date), parseInt(time.hours), parseInt(time.taskId), parseInt(time.projectId)));
     });
     return timeCard;
   }
