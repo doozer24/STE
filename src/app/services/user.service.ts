@@ -1,23 +1,36 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Http, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { User } from '../models/user';
+
 @Injectable()
 export class UserService {
+  port = 'http://localhost:8080';
+  constructor(private http: Http) { }
 
-  constructor(private http: HttpClient) { }
-
-  async login(username: string, password: string) {
-    // return this.http.post<any>('/api/authenticate', { username: username, password: password })
-    //   .map(user => {
-    //       if (user && user.token) {
-    //         localStorage.setItem('timeAndAdminUser', JSON.stringify(user));
-    //       }
-    //       return user;
-    //   });
+  async login(username: string, password: string): Promise<any> {
+    const that = this;
+    const headers = new Headers();
+    return new Promise(function(resolve) {
+      that.http.post(that.port + '/user/login', { userName: username, password: password}, {headers: headers})
+      .map(res => res.json())
+      .subscribe(data => {
+          localStorage.setItem('timeAndAdminUserId', data.id);
+          resolve({data: data, error: null});
+        },
+        error => {
+          resolve({data: null, error: error});
+        }
+      );
+    });
   }
 
   logout() {
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('timeAndAdminUserId');
+  }
+
+  getUser(userId) {
+    return new User('John', 'Doe');
   }
 
 }

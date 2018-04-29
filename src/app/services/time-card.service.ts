@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { TimeCard, Time } from '../models/time-card';
+import { Http } from '@angular/http';
 
 @Injectable()
 export class TimeCardService {
-
-  constructor() { }
+  port = 'http://localhost:8080';
+  constructor(private http: Http) { }
 
   createTimeCard(startDate: Date, endDate: Date) {
     const timeCard = new TimeCard(1, startDate, endDate, 'In Progress', [
@@ -23,17 +24,25 @@ export class TimeCardService {
   }
 
   getActiveTimeCardsForUser(userId) {
-    const timeCard = [
+    const timeCards = [
       new TimeCard(1, new Date(2018, 3, 16), new Date(2018, 3, 22), 'In Progress', [
         new Time(new Date(2018, 3, 23), 8, 1, 1)
       ]),
-      new TimeCard(1, new Date(2018, 3, 23), new Date(2018, 3, 29), 'In Progress', [
+      new TimeCard(1, new Date(2018, 3, 23), new Date(2018, 3, 29), 'Submitted', [
         new Time(new Date(2018, 3, 23), 8, 1, 1)
       ])
     ];
-    timeCard[0].id = 1;
-    timeCard[1].id = 2;
-    return timeCard;
+    timeCards[0].id = 1;
+    timeCards[1].id = 2;
+    return timeCards;
+  }
+
+  saveTimeCard(timeCard) {
+    return;
+  }
+
+  deleteTimeCard(timeCardId) {
+    return;
   }
 
 }
