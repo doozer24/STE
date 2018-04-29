@@ -25,8 +25,8 @@ exports.config = {
     print: function() {}
   },
   plugins: [{
-    axe: true,
-    package: 'protractor-accessibility-plugin'
+      axe: true,
+      package: 'protractor-accessibility-plugin'
   }],
   onPrepare() {
     require('ts-node').register({
