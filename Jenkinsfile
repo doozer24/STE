@@ -61,6 +61,8 @@ volumes: [
           sh '''
           cat kube/deployments/sevis-challenge-front.yaml | sed s/latest/${GIT_BRANCH}${BUILD_NUMBER}/g | kubectl replace --namespace=staging -f -
           '''
+          //we don't care if it fails, or
+          build job: 'sevis-challenge-integration', propagate: true, wait: false
         }
       }
     }
