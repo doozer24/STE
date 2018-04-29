@@ -4,7 +4,7 @@ import { Http } from '@angular/http';
 
 @Injectable()
 export class TimeCardService {
-  port = 'sevis-challenge-back-time:8080';
+  port = 'http://sevis-challenge-back-time:8080';
   //port = 'http://localhost:8080';
   constructor(private http: Http) { }
 
