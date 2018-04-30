@@ -109,7 +109,7 @@ export class TimeCardService {
   convertJsonToTimeCard (json, id = null) {
     const timeCard = new TimeCard(id ? id : json.id, json.employee, new Date(json.startDate + ' EST'), new Date(json.endDate + ' EST'), json.status);
     _.each(json.time, function(time) {
-      timeCard.time.push(new Time(new Date(time.date), parseInt(time.hours), parseInt(time.taskId), parseInt(time.projectId)));
+      timeCard.time.push(new Time(new Date(time.date + ' EST'), parseInt(time.hours), parseInt(time.taskId), parseInt(time.projectId)));
     });
     return timeCard;
   }
