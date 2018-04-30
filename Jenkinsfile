@@ -17,7 +17,6 @@ volumes: [
   node('sevis-front') {
     parallel tests: {
       try{
-        stage('Test') {
           container('node-test') {
             checkout scm
             sh "npm install"
@@ -25,12 +24,11 @@ volumes: [
             sh "npm run test:coverage"
           }
         }
-      }
       finally {
           junit 'reports/*.xml'
           archive (includes: 'coverage/*,coverage/**/*')
       }
-
+    },
       stage('Static Analysis') {
         container('node-sonarqube') {
           withSonarQubeEnv('sonarqube') {
