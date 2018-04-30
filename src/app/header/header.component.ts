@@ -11,8 +11,6 @@ import { User } from '../models/user';
 export class HeaderComponent implements OnInit {
   user: User;
 
-  user: User;
-
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
