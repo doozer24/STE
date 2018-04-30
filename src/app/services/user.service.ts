@@ -5,7 +5,8 @@ import { User } from '../models/user';
 
 @Injectable()
 export class UserService {
-  port = 'http://localhost:8080';
+  //port = 'http://localhost:8080';
+  port = 'http://a65f8c1fc4a4411e885050aed1a33dd7-1442537821.us-east-1.elb.amazonaws.com:8080';
   constructor(private http: Http) { }
 
   async login(username: string, password: string): Promise<any> {
