@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { TimeCard, Time } from '../models/time-card';
 import { Http } from '@angular/http';
-
+import { environment } from '../../environments/environment';
 @Injectable()
 export class TimeCardService {
-  port = 'http://a51d659e34bf811e885050aed1a33dd7-1312644071.us-east-1.elb.amazonaws.com:8080';
-  //port = 'http://localhost:8080';
+
   constructor(private http: Http) { }
 
   createTimeCard(startDate: Date, endDate: Date) {
