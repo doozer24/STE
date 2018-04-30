@@ -24,11 +24,7 @@ export class HeaderComponent implements OnInit {
   }
 
   isLoggedIn(){
-<<<<<<< HEAD
-      return localStorage.getItem('timeAndAdminUser');
-=======
     return localStorage.getItem('timeAndAdminUser');
->>>>>>> master
   }
 
 }
