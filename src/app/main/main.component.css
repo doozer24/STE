@@ -4,3 +4,11 @@
         display: none !important;
     }
 }
+
+@media screen and (min-width: 950px) {
+
+  #mobile-menu-area {
+    display: none !important;
+  }
+
+}
