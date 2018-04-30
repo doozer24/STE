@@ -41,7 +41,7 @@
             </div>
           </td>
         </tr>
-    <tr class="usa-form" *ngIf="timeCard?.status === 'In Progress'">
+    <tr class="usa-form" *ngIf="showNewTaskRow()">
       <td>
         <select name="options" id="options" [(ngModel)]="newRowProjectId" (ngModelChange)="onProjectChange()">
           <option value>- Select -</option>

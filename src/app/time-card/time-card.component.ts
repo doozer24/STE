@@ -42,7 +42,7 @@ export class TimeCardComponent implements OnInit {
 
   getDates(startDate, stopDate) {
     const dateArray = new Array();
-    let currentDate = startDate;
+    let currentDate = new Date(startDate);
     while (currentDate <= stopDate) {
         dateArray.push(new Date (currentDate));
         currentDate = new Date(currentDate.setDate(currentDate.getDate() + 1));
@@ -195,5 +195,9 @@ export class TimeCardComponent implements OnInit {
     } else {
       this.currentEditedTimeError = '';
     }
+  }
+
+  showNewTaskRow() {
+    return this.timeCard ? this.timeCard.status === 'IN PROGRESS' : false;
   }
 }
