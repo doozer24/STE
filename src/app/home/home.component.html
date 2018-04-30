@@ -10,15 +10,15 @@
 <div *ngIf="timeCards">
   <table class="usa-table-borderless" style="width: 60%">
     <thead>
-      <th>Date Range</th>
-      <th>Total Hours</th>
-      <th>Status</th>
+      <th scope="col">Date Range</th>
+      <th scope="col">Total Hours</th>
+      <th scope="col">Status</th>
     </thead>
     <tbody>
       <tr *ngFor="let timeCard of timeCards">
-        <td><a routerLink="/time-card/{{timeCard.id}}">{{timeCard.getDateRange()}}</a></td>
-        <td>{{timeCard.getTotalHours()}}</td>
-        <td>{{timeCard.status}}</td>
+        <td data-label="Date Range"><a routerLink="/time-card/{{timeCard.id}}">{{timeCard.getDateRange()}}</a></td>
+        <td data-label="Total Hours">{{timeCard.getTotalHours()}}</td>
+        <td data-label="Status">{{timeCard.status}}</td>
       </tr>
     </tbody>
   </table>

@@ -9,7 +9,7 @@
 }
 
 .page-message {
-  margin-bottom: 100px;
+  margin-bottom: 60px;
   margin-top: 0px
 }
 
@@ -31,6 +31,31 @@
   min-height: 20px;
 }
 
+/** Sticky Footer **/
+
+html{
+  height: 100%;
+}
+
+body, app-root{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+header{
+ flex: 0 0 auto;
+}
+
+.main-content {
+ flex: 1 0 auto;
+ padding: 40px 0 0 0;
+}
+
+footer{
+ flex: 0 0 auto;
+}
+
 .usa-input-no-error {
   border-left: 4px solid white;
   margin-top: 3rem;
@@ -43,4 +68,106 @@
 
 .usa-input-no-error > label {
   margin-top: 0rem
+}
+
+/* Responsive tables global styling */
+
+/* This prevents a Top Border above the table headers (Time, Conference & Reserved By) */
+.table-first-row {
+  border-top: none !important;
+}
+
+/* Sets attributes of responsive table at screen resolution higher than 850px wide */
+
+table {
+  border-collapse: collapse;
+  margin: 20px 0 40px 0;
+  padding: 0;
+}
+
+table caption {
+  font-size: 1.5em;
+  margin: .5em 0 .75em;
+}
+
+table tr {
+  border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  padding: .35em;
+}
+
+table th,
+table td {
+  padding: .625em;
+  text-align: left;
+  border: none;
+}
+
+.logged-hours-sm, .edit-time-entry {
+  display: none;
+}
+
+@media screen and (max-width: 700px) {
+
+/* Sets attributes of responsive table at screen resolution less than 850px wide */
+
+  table {
+    border: 0 !important;
+    margin: 20px 0 20px 0;
+    width: 100%;
+  }
+
+  table caption {
+    font-size: 1.3em;
+  }
+
+  table thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+
+  table tr {
+    border-top: 3px solid #2d2d2d;
+    border-bottom: 3px solid #2d2d2d;
+    display: block;
+    margin-bottom: .625em;
+  }
+
+  table td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+    font-size: 0.9em;
+    text-align: right;
+  }
+
+  table td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: bold;
+  }
+
+  table td:last-child {
+    border-bottom: 0;
+  }
+
+  .logged-hours-sm, .edit-time-entry{
+    display: initial;
+  }
+
+  .edit-time-entry {
+    vertical-align: middle;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+
+  .logged-hours-lg {
+    display: none;
+  }
+
 }
