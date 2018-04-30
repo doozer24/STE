@@ -1,0 +1,28 @@
+
+
+.h4-margin-status {
+    margin-bottom: 0px !important;
+}
+
+.delete-card-container {
+    line-height: 18px;
+}
+
+.delete-card {
+    color: #e31c3d;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 18px;
+    vertical-align: middle;
+}
+
+.delete-trash-can {
+    vertical-align: middle;
+    margin: -4px 6px 0 0;
+}
+
+.page-message {
+    margin-bottom: 60px;
+}
+

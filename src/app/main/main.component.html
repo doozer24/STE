@@ -1,5 +1,5 @@
-<div fxLayout="row" style="max-width: none !important">
-  <aside fxFlex="15" fxFlexOffset="5" >
+<div fxLayout="row" style="">
+  <aside fxFlex="15" fxFlexOffset="5" id="left-side-menu">
     <ul class="usa-sidenav-list">
       <li>
         <a [className]="router.url === '/' ? 'usa-current' : ''" routerLink="/">Home</a>
@@ -9,6 +9,7 @@
       </li>
     </ul>
   </aside>
+
   <div fxFlex="75" fxFlexOffset="5">
     <router-outlet></router-outlet>
   </div>

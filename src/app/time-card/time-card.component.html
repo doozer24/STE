@@ -1,3 +1,5 @@
+<!-- Time Card Page Main Content -->
+
 <h6 class="page-header">
   Time Card
 </h6>
@@ -5,40 +7,41 @@
   {{timeCard?.getDateRange()}}
 </h2>
 <div class="page-message">
-    <h4>
+    <h4 class="h4-margin-status">
       Status: {{timeCard?.status}}
     </h4>
-    <span (click)="deleteDialogDisplay=true">Delete Time Card</span>
+    <span (click)="deleteDialogDisplay=true" class="delete-card" title="Delete Time Card">
+      <img src="/assets/img/trash-can-icon.png" class="delete-trash-can"/>
+      DELETE TIME CARD
+    </span>
 </div>
 <table class="usa-table-borderless">
   <thead>
-    <th>Project Code</th>
-    <th>Task</th>
-    <th *ngFor="let date of timeCardDates">
+    <th scope="col">Project Code</th>
+    <th scope="col">Task</th>
+    <th scope="col" *ngFor="let date of timeCardDates">
       {{getDateShort(date)}}
     </th>
-    <th>Total</th>
+    <th scope="col">Total</th>
   </thead>
   <tbody>
-    <tr class="usa-form" *ngFor="let time of getUniqueProjectAndTask()">
-      <td>
-        {{getProjectById(time.projectId)?.name}}
-      </td>
-      <td>
-        {{getTask(time.projectId, time.taskId)?.name}}
-      </td>
-      <td *ngFor="let date of timeCardDates">
-        <div class="form-group usa-form-group-month">
-          <input (click)="modifyTimeEntry(time.projectId, time.taskId, date)" class="usa-input-inline" type="text" value="{{getHoursForProjectTaskAndDate(time.projectId, time.taskId, date)}}">
-        </div>
-      </td>
-      <td>
-        <div class="form-group">
-          <span type="number" class="bold">{{getTotalProjectHours(time.projectId, time.taskId)}}</span>
-        </div>
-      </td>
-    </tr>
-    <tr class="usa-form" *ngIf="timeCard?.status === 'IN PROGRESS'">
+      <tr class="usa-form" *ngFor="let time of getUniqueProjectAndTask()">
+          <td data-label="Project">{{getProjectById(time.projectId)?.name}}</td>
+          <td data-label="Task">{{getTask(time.projectId, time.taskId)?.name}}</td>
+          <td data-label="" *ngFor="let date of timeCardDates">
+            <span class="logged-hours-sm">{{getHoursForProjectTaskAndDate(time.projectId, time.taskId, date)}}</span>
+            <img src="/assets/img/edit-time-entry.png" (click)="modifyTimeEntry(time.projectId, time.taskId, date)" class="edit-time-entry" title="Edit Time Entry"/>
+            <div class="form-group usa-form-group-month logged-hours-lg">
+              <input (click)="modifyTimeEntry(time.projectId, time.taskId, date)" class="usa-input-inline" type="text" value="{{getHoursForProjectTaskAndDate(time.projectId, time.taskId, date)}}">
+            </div>
+          </td>
+          <td>
+            <div class="form-group">
+              <span type="number" class="bold">{{getTotalProjectHours(time.projectId, time.taskId)}}</span>
+            </div>
+          </td>
+        </tr>
+    <tr class="usa-form" *ngIf="timeCard?.status === 'In Progress'">
       <td>
         <select name="options" id="options" [(ngModel)]="newRowProjectId" (ngModelChange)="onProjectChange()">
           <option value>- Select -</option>
@@ -85,6 +88,8 @@
   <button class="usa-button" (click)="submitTimeCard()">Sign Time Card</button>
 </div>
 
+<!-- Pop-Up Dialog Box for Allowing Users to Input Time & Notes on Time Card -->
+
 <p-dialog [(visible)]="dialogDisplay"  [modal]="true" [responsive]="true" [width]="450" [minWidth]="200" [minY]="70">
     <div>
       <h6 class="page-header">
@@ -111,6 +116,8 @@
       <button class="usa-button-secondary" (click)="cancelTimeEntry()" >Cancel</button>
     </div>
 </p-dialog>
+
+<!-- Pop-Up Dialog Box Verifying Deletion of Time Card -->
 
 <p-dialog [(visible)]="deleteDialogDisplay"  [modal]="true" [responsive]="true" [width]="450" [minWidth]="200" [minY]="70">
     <div>
