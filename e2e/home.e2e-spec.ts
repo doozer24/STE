@@ -25,8 +25,8 @@ describe('When logged in to home page', () => {
 
   it('when the user clicks Logout button they should be logged out and redirected to login page', () => {
     home.navigateTo();
-    home.logOut();
-    expect(loginPage.getPageTitle()).isNot('Log Out');
+    //home.logOut();
+    expect(loginPage.getPageTitle()).toEqual('Log In');
   });
 
   it('when user clicks on Create Time Card button they should be directed the Create Time Card page', () => {

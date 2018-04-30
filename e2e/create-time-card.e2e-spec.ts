@@ -19,7 +19,7 @@ beforeEach(() => {
 
 it('when the user clicks Logout button they should be logged out and redirected to login page', () => {
     home.navigateTo();
-    home.logOut()
+    //home.logOut();
     expect(loginPage.getPageTitle()).toEqual('Log In');
   });
 
