@@ -19,7 +19,7 @@ describe('When logged in to home page', () => {
     browser.executeScript("window.localStorage.setItem('timeAndAdminUser', 'myValue');");
     browser.executeScript("window.sessionStorage.setItem('timeAndAdminUser', 'myValue');");
   });
-
+  //
   afterEach(() => {
     loginPage.navigateTo();
     browser.executeScript('window.sessionStorage.clear();');
