@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpModule } from '@angular/http';
+import { TimeCard } from '../models/time-card';
 
 describe('TimeCardComponent', () => {
   let component: TimeCardComponent;
@@ -30,6 +31,16 @@ describe('TimeCardComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should show new task row if status is IN PROGRESS', () => {
+    component.timeCard = new TimeCard(0, 0, new Date(), new Date(), 'IN PROGRESS');
+    expect(component.showNewTaskRow()).toBeTruthy();
+  });
+
+  it('should not show new task row if status is not IN PROGRESS', () => {
+    component.timeCard = new TimeCard(0, 0, new Date(), new Date(), 'SUBMITTED');
+    expect(component.showNewTaskRow()).toBeFalsy();
   });
 });
 

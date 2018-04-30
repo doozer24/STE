@@ -196,4 +196,8 @@ export class TimeCardComponent implements OnInit {
       this.currentEditedTimeError = '';
     }
   }
+
+  showNewTaskRow() {
+    return this.timeCard ? this.timeCard.status === 'IN PROGRESS' : false;
+  }
 }
