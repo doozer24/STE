@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { TimeCard, Time } from '../models/time-card';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import * as _ from 'lodash';
 import { environment } from '../../environments/environment';
+import * as JSONBigInt from 'json-bigint-string';
 
 @Injectable()
 export class TimeCardService {
@@ -64,7 +65,9 @@ export class TimeCardService {
     const that = this;
     return new Promise(resolve => {
       that.http.get(environment.timeRoute + '/employee/' + userId)
-      .map(res => res.json())
+      .map(res => {
+        return JSONBigInt.parse(res['_body']);
+      })
       .subscribe(data => {
           resolve({data: that.convertJsonToTimeCardArray(data), error: null});
         },
