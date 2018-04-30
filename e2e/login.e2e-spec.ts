@@ -1,12 +1,13 @@
-import { LoginPage, LoggedInHome, CreateTimeCard} from './app.po';
+import { LoginPage } from './login.po';
+import { LoggedInHome } from './home.po';
 import {tryCatch} from 'rxjs/util/tryCatch';
 import { browser, by, element } from 'protractor';
+import {} from 'jasmine';
 
 describe('Login page', () => {
   let loginPage: LoginPage;
   let home: LoggedInHome;
-  let createTimeCard: CreateTimeCard;
-
+  
   const invalidCredentials = {
     username: 'invalidname',
     password: 'invalidpassword'
@@ -15,7 +16,6 @@ describe('Login page', () => {
   beforeEach(() => {
     loginPage = new LoginPage();
     home = new LoggedInHome();
-    createTimeCard = new CreateTimeCard();
   });
 
   it('when the user trys to login with invalid credentials they should stay on “login page" and see error notification', () => {
@@ -25,18 +25,9 @@ describe('Login page', () => {
     expect(loginPage.getErrorMessage()).toEqual('There was an error logging in.');
   });
 
-  it('when login is successful the user should redirect to welcome page', () => {
-    loginPage.navigateTo();
+  it('when login is successful the user should be redirected to welcome page', () => {
     loginPage.fillLoginFields();
-    expect(home.getWelcomeMessage()).toEqual('Welcome John Doe');
+    expect(home.navigateTo()).toEqual(browser.get('/'));
   });
-
-  it('when the user clicks Logout button they should be logged out and redirected to login page', () => {
-    home.navigateTo();
-    home.logOut()
-    expect(loginPage.getPageTitle()).toEqual('Log In');
-  });
-
-
 
 });
