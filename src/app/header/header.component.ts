@@ -9,7 +9,6 @@ import { User } from '../models/user';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-
   user: User;
 
   constructor(private userService: UserService, private router: Router) { }
