@@ -48,3 +48,4 @@ Thumbs.db
 protractor.conf.js
 protractor.conf.js
 protractor.conf.js
+src/app/header/header.component.ts
