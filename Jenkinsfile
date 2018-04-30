@@ -17,26 +17,25 @@ volumes: [
   node('sevis-front') {
     parallel tests: {
       try{
-          container('node-test') {
-            checkout scm
-            sh "npm install"
-            sh "npm run build"
-            sh "npm run test:coverage"
-          }
+        container('node-test') {
+          checkout scm
+          sh "npm install"
+          sh "npm run build"
+          sh "npm run test:coverage"
         }
+      }
       finally {
           junit 'reports/*.xml'
           archive (includes: 'coverage/*,coverage/**/*')
       }
-    },
       stage('Static Analysis') {
         container('node-sonarqube') {
           withSonarQubeEnv('sonarqube') {
             sh "sonar-scanner -X"
           }
         }
-      },
-    }
+      }
+    },
     docker: {
       stage('Build Container') {
         def ecr_login = ""
