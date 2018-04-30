@@ -60,7 +60,7 @@ volumes: [
         stage('Deploy to staging') {
           container('kubectl') {
             sh '''
-            cat kube/deployments/sevis-challenge-front.yaml | sed s/latest/${BRANCH_NAME}${BUILD_NUMBER}/g | kubectl replace --namespace=staging -f -
+            cat kube/deployments/sevis-challenge-front.yaml | sed s@latest@${BRANCH_NAME}${BUILD_NUMBER}@g | kubectl replace --namespace=staging -f -
             '''
             sh 'kubectl rollout status deployments sevis-challenge-front -n staging'
             //we don't care if it fails, or
