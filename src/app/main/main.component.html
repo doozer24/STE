@@ -7,6 +7,9 @@
       <li>
         <a [className]="router.url === '/create-time-card' ? 'usa-current' : ''" routerLink="/create-time-card" >Create Time Card</a>
       </li>
+      <li>
+        <a [className]="router.url === '/manages-users' ? 'usa-current' : ''" routerLink="/manage-users" >User Management</a>
+      </li>
     </ul>
   </aside>
 
@@ -15,3 +18,26 @@
   </div>
 </div>
 
+<nav role="navigation" class="usa-nav sidenav-mobile" id="mobile-menu-area">
+  <div class="usa-nav-inner">
+     <button class="usa-nav-close">
+     <img src="/assets/img/close.svg" alt="close">
+     </button>
+     <ul class="usa-sidenav-list usa-accordion">
+        <li>
+           <a [className]="router.url === '/' ? 'usa-current' : ''" routerLink="/">
+           <span>
+             Home
+           </span>
+           </a>
+        </li>
+        <li>
+         <a [className]="router.url === '/create-time-card' ? 'usa-current' : ''" routerLink="/create-time-card" >
+           <span>
+             Create Time Card
+           </span>
+         </a>
+      </li>
+     </ul>
+  </div>
+</nav>
