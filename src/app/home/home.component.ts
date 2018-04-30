@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
     const that = this;
     this.user = JSON.parse(localStorage.getItem('timeAndAdminUser'));
     this.timeCardService.getActiveTimeCardsForUser(this.user.loginId).then(function(timeCards) {
-      this.timeCards = timeCards.data;
+      that.timeCards = timeCards.data;
     });
   }
 
