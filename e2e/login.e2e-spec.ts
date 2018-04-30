@@ -4,7 +4,7 @@ import {tryCatch} from 'rxjs/util/tryCatch';
 import { browser, by, element } from 'protractor';
 import {} from 'jasmine';
 
-describe('Login page', () => {
+describe('On Login page', () => {
   let loginPage: LoginPage;
   let home: LoggedInHome;
   
