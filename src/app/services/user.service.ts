@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
+  user: User;
 
   constructor(private http: Http) { }
 
@@ -29,6 +30,11 @@ export class UserService {
   logout() {
     localStorage.removeItem('timeAndAdminUser');
   }
+
+  isLoggedIn(){
+    this.user = JSON.parse(localStorage.getItem('timeAndAdminUser'));
+  }
+  
 
   getUser(userId) {
     return new User('John', 'Doe');
