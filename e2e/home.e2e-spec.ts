@@ -16,11 +16,14 @@ describe('When logged in to home page', () => {
   beforeEach(() => {
     home = new LoggedInHome();
     loginPage = new LoginPage();
-    localStorage.setItem('timeAndAdminUser', JSON.stringify({loginId: this.invalidCredentials.username}));
+    browser.executeScript("window.localStorage.setItem('timeAndAdminUser', 'myValue');");
+    browser.executeScript("window.sessionStorage.setItem('timeAndAdminUser', 'myValue');");
   });
 
   afterEach(() => {
-    localStorage.removeItem('timeAndAdminUser');
+    loginPage.navigateTo();
+    browser.executeScript('window.sessionStorage.clear();');
+    browser.executeScript('window.localStorage.clear();');
   });
 
   it('when the user clicks Logout button they should be logged out and redirected to login page', () => {
