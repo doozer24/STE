@@ -2,11 +2,10 @@ import { Injectable } from '@angular/core';
 import { Project, Task } from '../models/project';
 import { Http } from '@angular/http';
 import * as _ from 'lodash';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ProjectService {
-  //port = 'http://localhost:8090';
-  port = 'http://a4ae6d2124a2711e885050aed1a33dd7-1805500835.us-east-1.elb.amazonaws.com:8080';
 
   constructor(private http: Http) { }
 
@@ -30,7 +29,7 @@ export class ProjectService {
   async getAllProjects(): Promise<any> {
     const that = this;
     return new Promise(function(resolve) {
-      that.http.get(that.port + '/project')
+      that.http.get(environment.projectRoute)
       .map(res => res.json())
       .subscribe(data => {
           resolve({data: data, error: null});
@@ -45,7 +44,7 @@ export class ProjectService {
   async createProject(project: Project) {
     const that = this;
     return new Promise(function(resolve) {
-      that.http.post(that.port + '/project/create', project)
+      that.http.post(environment.projectRoute + '/create', project)
       .map(res => res.json())
       .subscribe(data => {
           resolve({data: data, error: null});

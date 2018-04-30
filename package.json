@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --host=0.0.0.0 --disable-host-check",
+    "start": "ng serve --host=0.0.0.0 --disable-host-check --env=${DEPLOY_ENV}",
     "build": "ng build --dev",
     "test": "ng test",
     "test:selenium": "protractor protractor.conf",
