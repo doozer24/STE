@@ -32,6 +32,8 @@
     "@angular/platform-browser-dynamic": "^5.2.0",
     "@angular/router": "^5.2.0",
     "core-js": "^2.4.1",
+    "json-bigint": "^0.2.3",
+    "json-bigint-string": "^1.0.0",
     "lodash": "^4.17.10",
     "primeng": "^5.2.5",
     "rxjs": "^5.5.6",
