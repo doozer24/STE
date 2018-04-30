@@ -45,7 +45,3 @@ testem.log
 .DS_Store
 Thumbs.db
 .vscode/settings.json
-protractor.conf.js
-protractor.conf.js
-protractor.conf.js
-src/app/header/header.component.ts
