@@ -30,3 +30,8 @@ spec:
         imagePullPolicy: Always
         ports:
           - containerPort: 4200
+        env:
+        - name: DEPLOY_ENV
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace

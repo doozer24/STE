@@ -25,7 +25,8 @@ module.exports = function (config) {
       outputDir: './reports',
     },
     angularCli: {
-      environment: 'dev'
+      environment: 'dev',
+      codeCoverage: 'true' //added for code coverage report
     },
     reporters: ['progress', 'kjhtml', 'junit', 'coverage-istanbul'],
     port: 9876,
