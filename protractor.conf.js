@@ -11,12 +11,14 @@ exports.config = {
     'browserName': 'chrome'
   },
   //for use with selenium
-  seleniumAddress: 'http://selenium:4444/wd/hub',
+  // seleniumAddress: 'http://selenium:4444/wd/hub',
+  seleniumAddress: 'http://localhost:4444/wd/hub',
 
   directConnect: false,
   //needs to be ran on the selenium docker image, or if running in a docker compose setup with the image name of
   //the web app.
-  baseUrl: 'http://a3ee2941848a611e885050aed1a33dd7-259618607.us-east-1.elb.amazonaws.com:8080',
+  //baseUrl: 'http://a3ee2941848a611e885050aed1a33dd7-259618607.us-east-1.elb.amazonaws.com:8080',
+  baseUrl: 'http://208.185.21.86:4200',
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
