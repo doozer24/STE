@@ -18,14 +18,22 @@ exports.config = {
   directConnect: false,
   //needs to be ran on the selenium docker image, or if running in a docker compose setup with the image name of
   //the web app.
+<<<<<<< HEAD
   //baseUrl: 'http://app:4200/',
   baseUrl: 'http://172.22.124.225:4200/',
+=======
+  baseUrl: 'http://a3ee2941848a611e885050aed1a33dd7-259618607.us-east-1.elb.amazonaws.com:8080',
+>>>>>>> master
   framework: 'jasmine',
   jasmineNodeOpts: {
     showColors: true,
     defaultTimeoutInterval: 30000,
     print: function() {}
   },
+  plugins: [{
+      axe: true,
+      package: 'protractor-accessibility-plugin'
+  }],
   onPrepare() {
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
