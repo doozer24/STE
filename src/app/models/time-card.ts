@@ -2,23 +2,24 @@ import * as _ from 'lodash';
 
 export class TimeCard {
   id: number;
-  employeeId: number;
+  employee: number;
   startDate: Date;
   endDate: Date;
   status: string;
-  times: Array<Time>;
+  time: Array<Time>;
 
-  constructor(employeeId: number, startDate: Date, endDate: Date, status: string, times: Array<Time>) {
-    this.employeeId = employeeId;
+  constructor(id, employee: number, startDate: Date, endDate: Date, status: string = null, time: Array<Time> = []) {
+    this.id = id;
+    this.employee = employee;
     this.startDate = startDate;
     this.endDate = endDate;
     this.status = status;
-    this.times = times;
+    this.time = time;
   }
 
   getTotalHours() {
     let totalHours = 0;
-    _.each(this.times, function(time) {
+    _.each(this.time, function(time) {
       totalHours += time.hours;
     });
     return totalHours;

@@ -17,6 +17,7 @@ describe('HomeComponent', () => {
       imports: [HttpModule, RouterTestingModule]
     })
     .compileComponents();
+    localStorage.setItem('timeAndAdminUser', JSON.stringify({loginId: 'dummy'}));
   }));
 
   beforeEach(() => {
