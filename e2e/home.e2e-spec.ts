@@ -16,14 +16,8 @@ describe('When logged in to home page', () => {
   beforeEach(() => {
     home = new LoggedInHome();
     loginPage = new LoginPage();
-    browser.executeScript("window.localStorage.setItem('timeAndAdminUser', 'myValue');");
-    browser.executeScript("window.sessionStorage.setItem('timeAndAdminUser', 'myValue');");
-  });
-  //
-  afterEach(() => {
     loginPage.navigateTo();
-    browser.executeScript('window.sessionStorage.clear();');
-    browser.executeScript('window.localStorage.clear();');
+    loginPage.fillLoginFields();
   });
 
   it('when the user clicks Logout button they should be logged out and redirected to login page', () => {
