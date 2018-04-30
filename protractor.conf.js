@@ -41,6 +41,7 @@ exports.config = {
       //   output/junitresults-example1.xml
       //   output/junitresults-example2.xml
       consolidateAll: true
+    })
 
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
