@@ -1,20 +1,12 @@
 import { Injectable } from '@angular/core';
 import { TimeCard, Time } from '../models/time-card';
 import { Http } from '@angular/http';
-<<<<<<< HEAD
 import * as _ from 'lodash';
-
-@Injectable()
-export class TimeCardService {
-
-  //port = 'http://sevis-challenge-back-time:8080';
-  port = 'http://localhost:8082';
-=======
 import { environment } from '../../environments/environment';
+
 @Injectable()
 export class TimeCardService {
 
->>>>>>> master
   constructor(private http: Http) { }
 
   async createTimeCard(startDate: Date, endDate: Date, loginId: string): Promise<any> {
@@ -25,7 +17,7 @@ export class TimeCardService {
     // return timeCard;
     const that = this;
     return new Promise(resolve => {
-      that.http.post(that.port + '/time/create', {loginId: loginId, startDate: startDate, endDate: endDate})
+      that.http.post(environment.timeRoute + '/create', {loginId: loginId, startDate: startDate, endDate: endDate})
       .map(res => res.json())
       .subscribe(data => {
           resolve({data: data, error: null});
@@ -45,7 +37,7 @@ export class TimeCardService {
     // return timeCard;
     const that = this;
     return new Promise(resolve => {
-      that.http.get(that.port + '/time/id/' + id)
+      that.http.get(environment.timeRoute + '/id/' + id)
       .map(res => res.json())
       .subscribe(data => {
           resolve({data: that.convertJsonToTimeCard(data, id), error: null});
@@ -71,7 +63,7 @@ export class TimeCardService {
     // return timeCards;
     const that = this;
     return new Promise(resolve => {
-      that.http.get(that.port + '/time/employee/' + userId)
+      that.http.get(environment.timeRoute + '/employee/' + userId)
       .map(res => res.json())
       .subscribe(data => {
           resolve({data: that.convertJsonToTimeCardArray(data), error: null});
@@ -86,7 +78,7 @@ export class TimeCardService {
   saveTimeCard(timeCard) {
     const that = this;
     return new Promise(resolve => {
-      that.http.put(that.port + '/time/id/' + timeCard.id, timeCard.time)
+      that.http.put(environment.timeRoute + '/id/' + timeCard.id, timeCard.time)
       .map(res => res.json())
       .subscribe(data => {
           resolve({data: data, error: null});

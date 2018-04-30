@@ -6,12 +6,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
-<<<<<<< HEAD
 
-  //port = 'http://localhost:8080';
-  port = 'http://sevis-challenge-back-users:8080';
-=======
->>>>>>> master
   constructor(private http: Http) { }
 
   async login(username: string, password: string): Promise<any> {

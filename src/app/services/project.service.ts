@@ -6,12 +6,6 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ProjectService {
-<<<<<<< HEAD
-
-  port = 'http://localhost:8090';
-  //port = 'http://sevis-challenge-back-project:8080';
-=======
->>>>>>> master
 
   constructor(private http: Http) { }
 
