@@ -2,7 +2,6 @@
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
 const { SpecReporter } = require('jasmine-spec-reporter');
-
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
@@ -29,10 +28,24 @@ exports.config = {
       package: 'protractor-accessibility-plugin'
   }],
   onPrepare() {
+    var jasmineReporters = require('jasmine-reporters');
+    var junitReporter = new jasmineReporters.JUnitXmlReporter({
+
+      // setup the output path for the junit reports
+      savePath: 'reports/',
+
+      // conslidate all true:
+      //   output/junitresults.xml
+      //
+      // conslidate all set to false:
+      //   output/junitresults-example1.xml
+      //   output/junitresults-example2.xml
+      consolidateAll: true
+
     require('ts-node').register({
       project: 'e2e/tsconfig.e2e.json'
     });
     jasmine.getEnv().addReporter(new SpecReporter({ spec: { displayStacktrace: true } }));
-    jasmine.getEnv().addReporter(new jasmine.JUnitXmlReporter('reports/', true, true));
+    jasmine.getEnv().addReporter(junitReporter);
   }
 };
