@@ -15,43 +15,46 @@ volumes: [
 ])
 {
   node('sevis-front') {
-    try{
-      stage('Test') {
-        container('node-test') {
-          checkout scm
-          sh "npm install"
-          sh "npm run build"
-          sh "npm run test:coverage"
+    parallel tests: {
+      try{
+        stage('Test') {
+          container('node-test') {
+            checkout scm
+            sh "npm install"
+            sh "npm run build"
+            sh "npm run test:coverage"
+          }
         }
       }
-    }
-    finally {
-        junit 'reports/*.xml'
-        archive (includes: 'coverage/*,coverage/**/*')
-    }
+      finally {
+          junit 'reports/*.xml'
+          archive (includes: 'coverage/*,coverage/**/*')
+      }
 
-    stage('Static Analysis') {
-      container('node-sonarqube') {
-        withSonarQubeEnv('sonarqube') {
-          sh "sonar-scanner -X"
+      stage('Static Analysis') {
+        container('node-sonarqube') {
+          withSonarQubeEnv('sonarqube') {
+            sh "sonar-scanner -X"
+          }
         }
-      }
+      },
     }
-
-    stage('Build Container') {
-      def ecr_login = ""
-      container('aws') {
-        sh "aws ecr get-login --no-include-email --region us-east-1 > login.txt"
-        ecr_login = readFile('login.txt')
-      }
-      container('docker') {
-        withEnv(["ecr_login=${ecr_login}"])  {
-          sh '''
-        ${ecr_login}
-        docker build -t sevis-challenge-front .
-        docker tag sevis-challenge-front 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BRANCH_NAME}${BUILD_NUMBER}
-        docker push 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BRANCH_NAME}${BUILD_NUMBER}
-        '''
+    docker: {
+      stage('Build Container') {
+        def ecr_login = ""
+        container('aws') {
+          sh "aws ecr get-login --no-include-email --region us-east-1 > login.txt"
+          ecr_login = readFile('login.txt')
+        }
+        container('docker') {
+          withEnv(["ecr_login=${ecr_login}"])  {
+            sh '''
+          ${ecr_login}
+          docker build -t sevis-challenge-front .
+          docker tag sevis-challenge-front 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BRANCH_NAME}${BUILD_NUMBER}
+          docker push 036167247202.dkr.ecr.us-east-1.amazonaws.com/sevis-challenge-front:${BRANCH_NAME}${BUILD_NUMBER}
+          '''
+          }
         }
       }
     }
