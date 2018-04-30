@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class UserService {
+
   constructor(private http: Http) { }
 
   async login(username: string, password: string): Promise<any> {
@@ -15,7 +16,7 @@ export class UserService {
       that.http.post(environment.userRoute + '/login', { userName: username, password: password}, {headers: headers})
       .map(res => res.json())
       .subscribe(data => {
-          localStorage.setItem('timeAndAdminUserId', data.id);
+          localStorage.setItem('timeAndAdminUser', JSON.stringify({loginId: username}));
           resolve({data: data, error: null});
         },
         error => {
@@ -26,7 +27,7 @@ export class UserService {
   }
 
   logout() {
-    localStorage.removeItem('timeAndAdminUserId');
+    localStorage.removeItem('timeAndAdminUser');
   }
 
   getUser(userId) {

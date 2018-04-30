@@ -38,17 +38,17 @@
         </div>
       </td>
     </tr>
-    <tr class="usa-form" *ngIf="timeCard?.status === 'In Progress'">
+    <tr class="usa-form" *ngIf="timeCard?.status === 'IN PROGRESS'">
       <td>
         <select name="options" id="options" [(ngModel)]="newRowProjectId" (ngModelChange)="onProjectChange()">
           <option value>- Select -</option>
-          <option *ngFor="let project of usersProjects" value="{{project.id}}">{{project.name}}</option>
+          <option *ngFor="let project of usersProjects" [ngValue]="project.id">{{project.name}}</option>
         </select>
       </td>
       <td>
         <select *ngIf="newRowProjectId" name="options" id="options" [(ngModel)]="newRowTaskId" (ngModelChange)="onTaskChange()">
           <option value>- Select -</option>
-          <option *ngFor="let task of getProjectTasksWithoutTime(newRowProjectId)" value="{{task.id}}">{{task.name}}</option>
+          <option *ngFor="let task of getProjectTasksWithoutTime(newRowProjectId)" [ngValue]="task.id">{{task.name}}</option>
         </select>
       </td>
       <ng-container *ngIf="!newRowTaskId">
