@@ -93,6 +93,21 @@ export class TimeCardService {
     });
   }
 
+  submitTimeCard(timeCard) {
+    const that = this;
+    return new Promise(resolve => {
+      that.http.post(environment.timeRoute + '/submit/' + timeCard.id, {})
+      .map(res => res.json())
+      .subscribe(data => {
+          resolve({data: data, error: null});
+        },
+        error => {
+          resolve({data: null, error: error});
+        }
+      );
+    });
+  }
+
   deleteTimeCard(timeCardId) {
     return;
   }

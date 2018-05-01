@@ -133,9 +133,13 @@ export class TimeCardComponent implements OnInit {
   }
 
   async submitTimeCard() {
+    const that = this;
     this.timeCard.status = 'SUBMITTED';
-    await this.timeCardService.saveTimeCard(this.timeCard);
-    this.router.navigate(['/']);
+    await this.timeCardService.saveTimeCard(this.timeCard).then(function(result) {
+      that.timeCardService.submitTimeCard(that.timeCard).then(function(r) {
+        that.router.navigate(['/']);
+      });
+    });
   }
 
   saveTimeEntry() {
