@@ -24,16 +24,16 @@
       </thead>
         <tbody>
         <tr *ngFor="let user of allUsers">
-          <td>
+          <td data-label="User Name">
             {{user?.lastName}}, {{user?.firstName}}
           </td>
-          <td>
+          <td data-label="User ID">
             {{user.loginId}}
           </td>
-          <td>
+          <td data-label="Role">
 
           </td>
-          <td>
+          <td data-label="Status">
               <button class="usa-button" *ngIf="user.active">
                 Activate User
               </button>
