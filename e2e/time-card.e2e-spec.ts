@@ -6,7 +6,7 @@ import {tryCatch} from 'rxjs/util/tryCatch';
 import { browser, by, element } from 'protractor';
 import {} from 'jasmine';
 
-describe('When on the Create Time Card page', () => {
+describe('TIME CARD: When on the Create Time Card page', () => {
     let timeCard: TimeCard;
     let createTimeCard: CreateTimeCard;
     let home: LoggedInHome;

@@ -4,10 +4,10 @@ import {tryCatch} from 'rxjs/util/tryCatch';
 import { browser, by, element } from 'protractor';
 import {} from 'jasmine';
 
-describe('On Login page', () => {
+describe('LOGIN: On Login page', () => {
   let loginPage: LoginPage;
   let home: LoggedInHome;
-  
+
   const invalidCredentials = {
     username: 'invalidname',
     password: 'invalidpassword'
@@ -17,6 +17,10 @@ describe('On Login page', () => {
     loginPage = new LoginPage();
     home = new LoggedInHome();
   });
+
+  afterEach(function() {
+    loginPage.navigateTo();
+});
 
   it('when the user trys to login with invalid credentials they should stay on “login page" and see error notification', () => {
     loginPage.navigateTo();

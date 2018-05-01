@@ -12,4 +12,7 @@ export class MainComponent implements OnInit {
   ngOnInit() {
   }
 
+  currentUserIsAdmin() {
+    return JSON.parse(localStorage.getItem('timeAndAdminUser')).loginId === 'admin';
+  }
 }
