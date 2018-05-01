@@ -16,14 +16,10 @@ describe('On Login page', () => {
   beforeEach(() => {
     loginPage = new LoginPage();
     home = new LoggedInHome();
-    browser.executeScript("window.localStorage.setItem('timeAndAdminUser', 'myValue');");
-    browser.executeScript("window.sessionStorage.setItem('timeAndAdminUser', 'myValue');");
   });
 
   afterEach(function() {
     loginPage.navigateTo();
-    browser.executeScript('window.sessionStorage.clear();');
-    browser.executeScript('window.localStorage.clear();');
 });
 
   it('when the user trys to login with invalid credentials they should stay on “login page" and see error notification', () => {
