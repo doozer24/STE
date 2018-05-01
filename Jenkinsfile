@@ -35,6 +35,7 @@ volumes: [
         withSonarQubeEnv('sonarqube') {
           sh "sonar-scanner -X"
         }
+        sh "sleep 30"
         timeout(time: 1, unit: 'HOURS') {
           def qg = waitForQualityGate()
           if (qg.status != 'OK') {
