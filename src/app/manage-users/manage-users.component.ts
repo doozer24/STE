@@ -25,7 +25,7 @@ export class ManageUsersComponent implements OnInit {
 
   updateStatus(user, status) {
     const that = this;
-    this.userService.updateUserStatus(user.id, status).then(function(response) {
+    this.userService.updateUserStatus(user, status).then(function(response) {
       if (response.data) {
         that.updateCurrentUsersWithUser(response.data);
       }
