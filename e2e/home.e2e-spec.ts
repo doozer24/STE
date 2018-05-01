@@ -25,6 +25,7 @@ describe('When logged in to home page', () => {
 
   it('when the user clicks Logout button they should be logged out and redirected to login page', () => {
     home.navigateTo();
+    loginPage.fillLoginFields();
     home.logOut();
     expect(loginPage.getPageTitle()).toEqual('Log In');
   });
@@ -33,4 +34,3 @@ describe('When logged in to home page', () => {
     expect(home.createTimeCardButtonFromHomeScreen()).toEqual(browser.get('/create-time-card'));
   });
 });
-
