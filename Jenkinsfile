@@ -37,6 +37,11 @@ volumes: [
         }
       }
     }
+    stage("Quality Gate") {
+      timeout(time: 1, unit: 'HOURS') {
+        waitForQualityGate abortPipeline: true
+      }
+    }
 
     stage('Build Container') {
       def ecr_login = ""
