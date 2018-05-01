@@ -35,6 +35,13 @@ volumes: [
         withSonarQubeEnv('sonarqube') {
           sh "sonar-scanner -X"
         }
+        sh "sleep 30"
+        timeout(time: 30, unit: 'SECONDS') {
+          def qg = waitForQualityGate()
+          if (qg.status != 'OK' && qg.status != 'WARNING') {
+              error "Pipeline aborted due to quality gate failure: ${qg.status}"
+          }
+        }
       }
     }
 
