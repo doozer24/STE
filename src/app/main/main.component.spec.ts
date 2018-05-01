@@ -24,7 +24,16 @@ describe('MainComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-});
+
+  it('should properly identify admin user as admin', () => {
+    localStorage.setItem('timeAndAdminUser', JSON.stringify({loginId: 'admin'}));
+    expect(component.currentUserIsAdmin()).toBeTruthy();
+  });
+
+  it('should properly identify a random user as not admin', () => {
+    localStorage.setItem('timeAndAdminUser', JSON.stringify({loginId: 'random'}));
+    expect(component.currentUserIsAdmin()).toBeFalsy();
+  });
 
 @Component({
   selector: 'router-outlet',
@@ -32,3 +41,4 @@ describe('MainComponent', () => {
 })
 class MockRouterOutletComponent {
 }
+});

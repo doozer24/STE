@@ -7,6 +7,9 @@
       <li>
         <a [className]="router.url === '/create-time-card' ? 'usa-current' : ''" routerLink="/create-time-card" >Create Time Card</a>
       </li>
+      <li *ngIf="currentUserIsAdmin()">
+          <a [className]="router.url === '/manage-users' ? 'usa-current' : ''" routerLink="/manage-users" >Manage Users</a>
+      </li>
     </ul>
   </aside>
 
@@ -32,6 +35,13 @@
          <a [className]="router.url === '/create-time-card' ? 'usa-current' : ''" routerLink="/create-time-card" >
            <span>
              Create Time Card
+           </span>
+         </a>
+      </li>
+        <li *ngIf="currentUserIsAdmin()">
+            <a [className]="router.url === '/manage-users' ? 'usa-current' : ''" routerLink="/manage-users" >
+            <span>
+             Manage Users
            </span>
          </a>
       </li>
