@@ -185,13 +185,15 @@ export class TimeCardComponent implements OnInit {
   }
 
   onEditedTimeChange() {
-    if (this.currentEditedTime.hours < 0 || this.currentEditedTime.hours > 24) {
+    if (this.currentEditedTime.hours < 0 || this.currentEditedTime.hours > 16){
       this.currentEditedTimeError = 'Please enter a valid number of hours.';
     } else if (this.currentEditedTime.hours % 1 !== 0
                 && this.currentEditedTime.hours % 1 !== .25
                 && this.currentEditedTime.hours % 1 !== .5
                 && this.currentEditedTime.hours % 1 !== .75) {
       this.currentEditedTimeError = 'Only quarter hours are allowed in time entry.';
+    }else if(this.getTotalHoursForDate(this.currentEditedTime.date) > 16){
+      this.currentEditedTimeError = 'This is over the limit of 16 hours per day';
     } else {
       this.currentEditedTimeError = '';
     }
