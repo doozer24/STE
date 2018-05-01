@@ -13,6 +13,6 @@ export class MainComponent implements OnInit {
   }
 
   currentUserIsAdmin() {
-    return false;
+    return JSON.parse(localStorage.getItem('timeAndAdminUser')).loginId === 'admin';
   }
 }

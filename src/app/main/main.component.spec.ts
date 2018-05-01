@@ -31,7 +31,7 @@ describe('MainComponent', () => {
   });
 
   it('should properly identify a random user as not admin', () => {
-    localStorage.setItem('timeAndAdminUser', JSON.stringify({loginId: 'admin'}));
+    localStorage.setItem('timeAndAdminUser', JSON.stringify({loginId: 'random'}));
     expect(component.currentUserIsAdmin()).toBeFalsy();
   });
 
@@ -41,3 +41,4 @@ describe('MainComponent', () => {
 })
 class MockRouterOutletComponent {
 }
+});
