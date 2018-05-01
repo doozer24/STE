@@ -35,7 +35,7 @@ export class ManageUsersComponent implements OnInit {
   updateCurrentUsersWithUser(userData) {
     _.each(this.allUsers, function(user) {
       if (user.loginId === userData.loginId) {
-        user.active = userData.active;
+        user.isActive = userData.isActive;
       }
     });
   }

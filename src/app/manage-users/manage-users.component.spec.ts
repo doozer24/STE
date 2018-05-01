@@ -31,7 +31,7 @@ describe('ManageUsersComponent', () => {
 
   it('should appropriately update user status', () => {
     component.allUsers = [new User('testUser', 'test', 'user', true)];
-    component.updateCurrentUsersWithUser({loginId: 'testUser', active: false});
-    expect(component.allUsers[0].active).toBeFalsy();
+    component.updateCurrentUsersWithUser({loginId: 'testUser', isActive: false});
+    expect(component.allUsers[0].isActive).toBeFalsy();
   });
 });
