@@ -26,6 +26,21 @@ export class UserService {
     });
   }
 
+  getAllUsers(): any {
+    const that = this;
+    return new Promise(resolve => {
+      that.http.get(environment.userRoute + '/list')
+        .map(res => res.json())
+        .subscribe(data => {
+            resolve({data: data, error: null});
+          },
+          error => {
+            resolve({data: null, error: error});
+          }
+        );
+    });
+  }
+
   logout() {
     localStorage.removeItem('timeAndAdminUser');
   }

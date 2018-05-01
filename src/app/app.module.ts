@@ -24,6 +24,7 @@ import { ManageUsersComponent } from './manage-users/manage-users.component';
 import { AddUserComponent } from './add-user/add-user.component';
 import { AddProjectComponent } from './add-project/add-project.component';
 import { ManageProjectsComponent } from './manage-projects/manage-projects.component';
+import { UserManagementComponent } from './user-management/user-management.component';
 
 const routes: Routes = [
   {path: '', component: MainComponent, canActivate: [AuthGuardService], children:
@@ -31,6 +32,7 @@ const routes: Routes = [
       {path: '', component: HomeComponent},
       {path: 'create-time-card', component: CreateTimeCardComponent},
       {path: 'time-card/:id', component: TimeCardComponent},
+      {path: 'user-management', component: UserManagementComponent},
     ]
   },
   {path: 'login', component: LoginComponent},
@@ -38,7 +40,8 @@ const routes: Routes = [
   {path: 'add-user', component: AddUserComponent},
   {path: 'manage-users', component: ManageUsersComponent},
   {path: 'add-project', component: AddProjectComponent},
-  {path: 'manage-projects', component: ManageProjectsComponent}
+  {path: 'manage-projects', component: ManageProjectsComponent},
+  {path: 'user-management', component: UserManagementComponent},
 ];
 
 @NgModule({
@@ -55,7 +58,8 @@ const routes: Routes = [
     ManageUsersComponent,
     AddUserComponent,
     AddProjectComponent,
-    ManageProjectsComponent
+    ManageProjectsComponent,
+    UserManagementComponent
   ],
   imports: [
     BrowserModule,
