@@ -34,14 +34,12 @@ volumes: [
       container('node-sonarqube') {
         withSonarQubeEnv('sonarqube') {
           sh "sonar-scanner -X"
-        }
-      }
-    }
-    stage("Quality Gate") {
-      timeout(time: 1, unit: 'HOURS') {
-        def qg = waitForQualityGate()
-        if (qg.status != 'OK') {
-            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+          timeout(time: 1, unit: 'HOURS') {
+            def qg = waitForQualityGate()
+            if (qg.status != 'OK') {
+                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+            }
+          }
         }
       }
     }
