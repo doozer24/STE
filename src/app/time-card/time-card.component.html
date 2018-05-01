@@ -11,7 +11,7 @@
       Status: {{timeCard?.status}}
     </h4>
     <span (click)="deleteDialogDisplay=true" class="delete-card" title="Delete Time Card">
-      <img src="/assets/img/trash-can-icon.png" class="delete-trash-can"/>
+      <img src="/assets/img/trash-can-icon.png" alt="delete-trash-can" class="delete-trash-can"/>
       DELETE TIME CARD
     </span>
 </div>
@@ -30,7 +30,7 @@
           <td data-label="Task">{{getTask(time.projectId, time.taskId)?.name}}</td>
           <td data-label="" *ngFor="let date of timeCardDates">
             <span class="logged-hours-sm">{{getHoursForProjectTaskAndDate(time.projectId, time.taskId, date)}}</span>
-            <img src="/assets/img/edit-time-entry.png" (click)="modifyTimeEntry(time.projectId, time.taskId, date)" class="edit-time-entry" title="Edit Time Entry"/>
+            <img src="/assets/img/edit-time-entry.png" alt="delete-trash-can" (click)="modifyTimeEntry(time.projectId, time.taskId, date)" class="edit-time-entry" title="Edit Time Entry"/>
             <div class="form-group usa-form-group-month logged-hours-lg">
               <input (click)="modifyTimeEntry(time.projectId, time.taskId, date)" class="usa-input-inline" type="text" value="{{getHoursForProjectTaskAndDate(time.projectId, time.taskId, date)}}">
             </div>
