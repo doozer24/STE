@@ -4,7 +4,7 @@ export class User {
   lastName: string;
   employeeId: string;
   title: string;
-  active: boolean;
+  isActive: boolean;
   supervisorId: string;
   startDate: Date;
   endDate: Date;
@@ -13,10 +13,10 @@ export class User {
   email: string;
   phoneNumber: number;
 
-  constructor(loginId: string, firstName: string, lastName: string, active: boolean = false) {
+  constructor(loginId: string, firstName: string, lastName: string, isActive: boolean = false) {
     this.loginId = loginId;
     this.firstName = firstName;
     this.lastName = lastName;
-    this.active = active;
+    this.isActive = isActive;
   }
 }

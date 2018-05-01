@@ -34,10 +34,10 @@
 
           </td>
           <td>
-              <button class="usa-button" *ngIf="user.active">
+              <button class="usa-button" *ngIf="user.isActive">
                 Activate User
               </button>
-              <button class="usa-button" *ngIf="!user.active">
+              <button class="usa-button" *ngIf="!user.isActive">
                 Deactivate User
               </button>
           </td>

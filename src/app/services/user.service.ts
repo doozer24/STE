@@ -42,10 +42,11 @@ export class UserService {
     });
   }
 
-  updateUserStatus(userId, status): any {
+  updateUserStatus(user, isActive): any {
     const that = this;
+    user.isActive = isActive;
     return new Promise(resolve => {
-      that.http.get(environment.userRoute + '/updateStatus/')
+      that.http.get(environment.userRoute + '/updateStatus/', user)
         .map(res => res.json())
         .subscribe(data => {
             resolve({data: data, error: null});
