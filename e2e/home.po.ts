@@ -4,11 +4,11 @@ export class LoggedInHome {
     navigateTo(){
       return browser.get('/');
     }
-  
+
     logOut(){
-      return element(by.css('a[href="#"]')).click();
+      return element(by.css('[class="us-logout-link"]')).click();
     }
-  
+
     getWelcomeMessage(){
       return element(by.css('[class="page-subheader"]')).getText();
     }
@@ -16,5 +16,5 @@ export class LoggedInHome {
     createTimeCardButtonFromHomeScreen(){
         return element(by.css('[type="submit"]')).click();
     }
-  
+
 }
