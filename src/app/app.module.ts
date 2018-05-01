@@ -31,14 +31,14 @@ const routes: Routes = [
       {path: '', component: HomeComponent},
       {path: 'create-time-card', component: CreateTimeCardComponent},
       {path: 'time-card/:id', component: TimeCardComponent},
+      {path: 'manage-users', component: ManageUsersComponent},
     ]
   },
   {path: 'login', component: LoginComponent},
   {path: 'recover-password', component: RecoverPasswordComponent},
   {path: 'add-user', component: AddUserComponent},
-  {path: 'manage-users', component: ManageUsersComponent},
   {path: 'add-project', component: AddProjectComponent},
-  {path: 'manage-projects', component: ManageProjectsComponent}
+  {path: 'manage-projects', component: ManageProjectsComponent},
 ];
 
 @NgModule({

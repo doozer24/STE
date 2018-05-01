@@ -13,8 +13,10 @@ export class User {
   email: string;
   phoneNumber: number;
 
-  constructor(firstName: string, lastName: string) {
+  constructor(loginId: string, firstName: string, lastName: string, active: boolean = false) {
+    this.loginId = loginId;
     this.firstName = firstName;
     this.lastName = lastName;
+    this.active = active;
   }
 }

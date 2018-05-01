@@ -27,17 +27,46 @@ export class UserService {
     });
   }
 
+  getAllUsers(): any {
+    const that = this;
+    return new Promise(resolve => {
+      that.http.get(environment.userRoute + '/list')
+        .map(res => res.json())
+        .subscribe(data => {
+            resolve({data: data, error: null});
+          },
+          error => {
+            resolve({data: null, error: error});
+          }
+        );
+    });
+  }
+
+  updateUserStatus(userId, status): any {
+    const that = this;
+    return new Promise(resolve => {
+      that.http.get(environment.userRoute + '/updateStatus/')
+        .map(res => res.json())
+        .subscribe(data => {
+            resolve({data: data, error: null});
+          },
+          error => {
+            resolve({data: null, error: error});
+          }
+        );
+    });
+  }
+
   logout() {
     localStorage.removeItem('timeAndAdminUser');
   }
 
-  isLoggedIn(){
+  isLoggedIn() {
     this.user = JSON.parse(localStorage.getItem('timeAndAdminUser'));
   }
-  
 
   getUser(userId) {
-    return new User('John', 'Doe');
+    return new User('jd', 'John', 'Doe');
   }
 
 }
