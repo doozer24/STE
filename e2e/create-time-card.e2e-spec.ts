@@ -27,6 +27,7 @@ beforeEach(() => {
 
 it('when logged in user clicks on dropdown, they can can select a date range, click the "Create Time Card" button, and be taken to their newly created time card', () => {
     //createTimeCard.timeCardDateRangeSelectDropdown();
+    createTimeCard.navigateToCreatedTimeCard();
     createTimeCard.createTimeCardButton();
     expect(createTimeCard.navigateToCreatedTimeCard()).toEqual(browser.get('/time-card/1'));
   });

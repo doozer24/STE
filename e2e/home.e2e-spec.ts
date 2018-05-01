@@ -16,11 +16,12 @@ describe('When logged in to home page', () => {
   beforeEach(() => {
     home = new LoggedInHome();
     loginPage = new LoginPage();
-    loginPage.navigateTo();
-    loginPage.fillLoginFields();
+
   });
 
   it('when the user clicks Logout button they should be logged out and redirected to login page', () => {
+    loginPage.navigateTo();
+    loginPage.fillLoginFields();
     home.navigateTo();
     home.logOut();
     expect(loginPage.getPageTitle()).toEqual('Log In');
