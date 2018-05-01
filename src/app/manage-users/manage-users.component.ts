@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../services/user.service';
 import { User } from '../models/user';
-
+import * as _ from 'lodash';
 @Component({
   selector: 'app-manage-users',
   templateUrl: './manage-users.component.html',
@@ -10,7 +10,7 @@ import { User } from '../models/user';
 })
 export class ManageUsersComponent implements OnInit {
 
-  allUsers: {};
+  allUsers = [];
   user: User;
   constructor(private userService: UserService,
               private router: Router) { }
@@ -18,24 +18,26 @@ export class ManageUsersComponent implements OnInit {
   ngOnInit() {
     const that = this;
     this.user = JSON.parse(localStorage.getItem('timeAndAdminUser'));
-    this.allUsers = this.userService.getAllUsers();
-    /*
-    this.timeCardService.getActiveTimeCardsForUser(this.user.loginId).then(function(timeCards) {
-      that.userTimeCards = timeCards.data;
-      that.setDateRanges();
+    this.userService.getAllUsers().then(function(response) {
+      that.allUsers = response.data;
     });
-     */
   }
 
-  async onSubmit(): Promise<any> {
+  updateStatus(user, status) {
     const that = this;
-    /*
-    if (!this.selectedDateRange) { return null; }
-    this.timeCardService.createTimeCard(this.selectedDateRange.startDate,
-      this.selectedDateRange.endDate, this.user.loginId).then(function(timeCard) {
-      that.router.navigate(['time-card/' + timeCard.data.id]).catch();
+    this.userService.updateUserStatus(user.id, status).then(function(response) {
+      if (response.data) {
+        that.updateCurrentUsersWithUser(response.data);
+      }
     });
-    */
+  }
+
+  updateCurrentUsersWithUser(userData) {
+    _.each(this.allUsers, function(user) {
+      if (user.loginId === userData.loginId) {
+        user.active = userData.active;
+      }
+    });
   }
 
 }

@@ -1,6 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ManageUsersComponent } from './manage-users.component';
+import { User } from '../models/user';
+import { UserService } from '../services/user.service';
+import { HttpModule } from '@angular/http';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('ManageUsersComponent', () => {
   let component: ManageUsersComponent;
@@ -8,7 +12,9 @@ describe('ManageUsersComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ManageUsersComponent ]
+      imports: [HttpModule, RouterTestingModule],
+      declarations: [ ManageUsersComponent ],
+      providers: [UserService]
     })
     .compileComponents();
   }));
@@ -21,5 +27,11 @@ describe('ManageUsersComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should appropriately update user status', () => {
+    component.allUsers = [new User('testUser', 'test', 'user', true)];
+    component.updateCurrentUsersWithUser({loginId: 'testUser', active: false});
+    expect(component.allUsers[0].active).toBeFalsy();
   });
 });

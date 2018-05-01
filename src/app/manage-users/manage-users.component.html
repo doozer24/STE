@@ -23,27 +23,23 @@
       </th>
       </thead>
         <tbody>
-        <tr>
+        <tr *ngFor="let user of allUsers">
           <td>
-            Test
+            {{user?.lastName}}, {{user?.firstName}}
           </td>
           <td>
-            Test ID
+            {{user.loginId}}
           </td>
           <td>
-            Roles
+
           </td>
           <td>
-            <div fxFlex fxLayout="row" fxLayoutAlign="center">
-              <button routerLink="#" class="usa-button">
+              <button class="usa-button" *ngIf="user.active">
                 Activate User
               </button>
-            </div>
-            <div fxFlex fxLayout="row" fxLayoutAlign="center">
-              <button routerLink="#" class="usa-button">
+              <button class="usa-button" *ngIf="!user.active">
                 Deactivate User
               </button>
-            </div>
           </td>
         </tr>
         </tbody>
